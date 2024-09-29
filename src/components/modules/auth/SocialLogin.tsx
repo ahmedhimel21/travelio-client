@@ -12,8 +12,8 @@ const SocialLogin = () => {
   return (
     <div>
       <Button
-        size="lg"
         fullWidth
+        size="lg"
         onClick={() => {
           signIn("google", { callbackUrl: redirect ? redirect : "/" });
         }}

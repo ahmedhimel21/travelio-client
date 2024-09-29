@@ -24,13 +24,11 @@ const RegisterForm = () => {
   //dispatch(createCar(oldData, newFormData));
   useEffect(() => {
     if (state && state.success) {
-      alert(state.message);
       toast.success(state.message);
       ref.current!.reset();
     }
 
     if (state && !state.success) {
-      alert(state.message);
       toast.error(state.message);
     }
   }, [state, ref]);
