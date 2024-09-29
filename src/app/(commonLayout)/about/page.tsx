@@ -1,4 +1,4 @@
-import { title } from "@/components/primitives";
+import { title } from "@/src/components/shared/primitives";
 
 export default function AboutPage() {
   return (

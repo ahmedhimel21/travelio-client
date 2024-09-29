@@ -68,6 +68,7 @@ const LoginForm = () => {
         </div>
         <Button
           className="w-[325px] bg-red-500 hover:bg-red-600 text-white py-3"
+          size="lg"
           type="submit"
         >
           Sign In
