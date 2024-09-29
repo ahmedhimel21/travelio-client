@@ -12,10 +12,13 @@ const SocialLogin = () => {
   return (
     <div>
       <Button
+        size="lg"
+        fullWidth
         onClick={() => {
           signIn("google", { callbackUrl: redirect ? redirect : "/" });
         }}
       >
+        Continue with Google
         <GoogleIcon />
       </Button>
     </div>
