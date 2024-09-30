@@ -72,3 +72,37 @@ export const changePassword = async (pre: any, formData: any): Promise<any> => {
     console.log(error);
   }
 };
+
+export const forgetPassword = async (pre: any, formData: any): Promise<any> => {
+  try {
+    const forgetPasswordData: any = {
+      ...Object.fromEntries(formData),
+    };
+    const response = await nexiosInstance.post(`/auth/forget-password`, {
+      email: forgetPasswordData.email,
+    });
+
+    console.log(response);
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const resetPassword = async (pre: any, formData: any): Promise<any> => {
+  console.log(formData);
+  try {
+    const resetPasswordData = {
+      ...Object.fromEntries(formData),
+    };
+    const response = await nexiosInstance.post("/auth/reset-password", {
+      email: resetPasswordData?.email,
+      newPassword: resetPasswordData?.password,
+    });
+
+    return response?.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

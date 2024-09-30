@@ -17,7 +17,7 @@ nexiosInstance.interceptors.request.use((config) => {
   if (accessToken) {
     config.headers = {
       ...config.headers,
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: accessToken,
     };
   }
 

@@ -90,7 +90,7 @@ export const Navbar = async () => {
         justify="end"
       >
         <NavbarItem className="hidden sm:flex gap-2">
-          <ChangePassword />
+          <ChangePassword user={user} />
           <ThemeSwitch />
         </NavbarItem>
         <NavbarItem className="hidden sm:flex gap-2" />

@@ -7,13 +7,13 @@ import CustomModal from "../../shared/CustomModal";
 
 import ChangePasswordForm from "./ChangePasswordForm";
 
-const ChangePassword = () => {
+const ChangePassword = ({ user }: { user: any }) => {
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
 
   return (
     <div className="my-3">
       <CustomModal isOpen={isOpen} size="3xl" onOpenChange={onOpenChange}>
-        <ModalHeader className="p-4">Ahmed Himel ~ Travelio</ModalHeader>
+        <ModalHeader className="p-4">{user?.data?.name} ~ Travelio</ModalHeader>
         <ChangePasswordForm onClose={onClose} />
       </CustomModal>
 

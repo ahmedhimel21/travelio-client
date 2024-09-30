@@ -8,8 +8,6 @@ import {
   Link,
 } from "@nextui-org/react";
 
-import ChangePassword from "../modules/auth/ChangePassword";
-
 import Logout from "./Logout";
 
 const DropDownProfile = ({
@@ -56,13 +54,13 @@ const DropDownProfile = ({
           <DropdownItem key="Userprofile">
             <Link href="/profile">Profile</Link>
           </DropdownItem>
-          {user?.data?.password && user?.data?.password ? (
+          {/* {user?.data?.password && user?.data?.password ? (
             <DropdownItem key="changePassword">
-              <ChangePassword />
+              <ChangePassword user={user} />
             </DropdownItem>
           ) : (
             <DropdownItem key="changePasswordDisabled" />
-          )}
+          )} */}
           <DropdownItem key="logout">
             <Logout />
           </DropdownItem>
