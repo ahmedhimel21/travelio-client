@@ -13,16 +13,22 @@ import { Input } from "@nextui-org/input";
 import { link as linkStyles } from "@nextui-org/theme";
 import NextLink from "next/link";
 import clsx from "clsx";
-import { Button } from "@nextui-org/button";
+import { cookies } from "next/headers";
 
 import DropDownProfile from "./DropDownProfile";
 
 import { siteConfig } from "@/src/config/site";
 import { ThemeSwitch } from "@/src/components/shared/theme-switch";
 import { SearchIcon, Logo } from "@/src/components/shared/icons";
+import { getUser } from "@/src/helpers/getUserInfo";
 
-export const Navbar = () => {
-  const user = true;
+export const Navbar = async () => {
+  // get access token from cookies
+  const accessToken: any = cookies().get("accessToken");
+  //get user
+  const user = await getUser(accessToken);
+
+  // search
   const searchInput = (
     <Input
       aria-label="Search"
@@ -70,7 +76,13 @@ export const Navbar = () => {
           ))}
         </ul>
       </NavbarContent>
-
+      {/* for large device */}
+      <NavbarContent
+        className="hidden sm:flex basis-1/5 sm:basis-full"
+        justify="end"
+      >
+        <NavbarItem className="hidden lg:flex">{searchInput}</NavbarItem>
+      </NavbarContent>
       <NavbarContent
         className="hidden sm:flex basis-1/5 sm:basis-full"
         justify="end"
@@ -78,24 +90,20 @@ export const Navbar = () => {
         <NavbarItem className="hidden sm:flex gap-2">
           <ThemeSwitch />
         </NavbarItem>
-        <NavbarItem className="hidden lg:flex">{searchInput}</NavbarItem>
-      </NavbarContent>
-      <NavbarContent
-        className="hidden sm:flex basis-1/5 sm:basis-full"
-        justify="end"
-      >
         <NavbarItem className="hidden sm:flex gap-2" />
-        {user ? (
-          <NavbarItem className="hidden sm:flex gap-3">
-            <DropDownProfile />
-            <Button color="danger">Logout</Button>
+        {user && user ? (
+          <NavbarItem className="hidden sm:flex">
+            <DropDownProfile user={user ? user : ""} />
           </NavbarItem>
         ) : (
-          <Link href="/login">Login</Link>
+          <NavbarItem className="hidden sm:flex">
+            <Link href="/login">Login</Link>
+          </NavbarItem>
         )}
       </NavbarContent>
-
+      {/* for small device */}
       <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
+        <DropDownProfile user={user} />
         <ThemeSwitch />
         <NavbarMenuToggle />
       </NavbarContent>

@@ -6,7 +6,7 @@ export const jwtVerify = (token: string) => {
   try {
     const decoded = jwt.verify(
       token,
-      process.env.JWT_ACCESS_SECRET as string,
+      process.env.JWT_ACCESS_SECRET as string
     ) as JwtPayload;
 
     return decoded;
@@ -18,7 +18,9 @@ export const jwtVerify = (token: string) => {
 };
 
 export const decode = (token: string) => {
-  const decoded = jwtDecode(token) as JwtPayload;
+  if (token) {
+    const decoded = jwtDecode(token) as JwtPayload;
 
-  return decoded;
+    return decoded;
+  }
 };

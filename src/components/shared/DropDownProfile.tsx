@@ -5,9 +5,20 @@ import {
   DropdownMenu,
   DropdownItem,
   User,
+  Link,
 } from "@nextui-org/react";
 
-const DropDownProfile = () => {
+import Logout from "./Logout";
+
+const DropDownProfile = ({
+  user,
+}: {
+  user: {
+    success: boolean;
+    message: string;
+    data: { name: string; img: string; email: string; role: string };
+  };
+}) => {
   return (
     <div className="flex items-center gap-4">
       <Dropdown placement="bottom-start">
@@ -16,26 +27,30 @@ const DropDownProfile = () => {
             as="button"
             avatarProps={{
               isBordered: true,
-              src: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
+              src: user?.data?.img,
             }}
             className="transition-transform"
-            description="@tonyreichert"
-            name="Tony Reichert"
+            name={user?.data?.name}
           />
         </DropdownTrigger>
         <DropdownMenu aria-label="User Actions" variant="flat">
           <DropdownItem key="profile" className="h-14 gap-2">
             <p className="font-bold">Signed in as</p>
-            <p className="font-bold">@tonyreichert</p>
+            <p className="font-bold">@{user?.data?.email}</p>
           </DropdownItem>
-          <DropdownItem key="settings">My Settings</DropdownItem>
-          <DropdownItem key="team_settings">Team Settings</DropdownItem>
-          <DropdownItem key="analytics">Analytics</DropdownItem>
-          <DropdownItem key="system">System</DropdownItem>
-          <DropdownItem key="configurations">Configurations</DropdownItem>
-          <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
-          <DropdownItem key="logout" color="danger">
-            Log Out
+          <DropdownItem key="dashboard">
+            {user?.data?.role && user?.data?.role === "admin" ? (
+              <Link href="/admin-dashboard">Dashboard</Link>
+            ) : (
+              <Link href="/dashboard">Dashboard</Link>
+            )}
+          </DropdownItem>
+          <DropdownItem key="Userprofile">
+            <Link href="/profile">Profile</Link>
+          </DropdownItem>
+          <DropdownItem key="changePassword">Change Password</DropdownItem>
+          <DropdownItem key="logout">
+            <Logout />
           </DropdownItem>
         </DropdownMenu>
       </Dropdown>
