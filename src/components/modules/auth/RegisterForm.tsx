@@ -26,6 +26,7 @@ const RegisterForm = () => {
     if (state && state.success) {
       toast.success(state.message);
       ref.current!.reset();
+      window.location.href = "/login";
     }
 
     if (state && !state.success) {

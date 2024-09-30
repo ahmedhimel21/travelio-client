@@ -5,6 +5,7 @@ import { cookies } from "next/headers";
 
 import nexiosInstance from "@/src/config/nexios.config";
 import { uploadImageToIMGBB } from "@/src/helpers/handleImageUpload";
+import { getUser } from "@/src/helpers/getUserInfo";
 
 export const register = async (pre: any, formData: any): Promise<any> => {
   try {
@@ -50,5 +51,24 @@ export const login = async (pre: any, formData: any): Promise<any> => {
     return response?.data;
   } catch (err) {
     console.log(err);
+  }
+};
+
+export const changePassword = async (pre: any, formData: any): Promise<any> => {
+  try {
+    const changePasswordData = {
+      ...Object.fromEntries(formData),
+    };
+    const token = cookies().get("accessToken");
+    const user = await getUser(token as { value: string });
+
+    const response = await nexiosInstance.put(
+      `/auth/change-password/${user?.data?.email}`,
+      changePasswordData
+    );
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
   }
 };
