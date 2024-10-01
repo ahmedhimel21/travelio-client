@@ -15,8 +15,6 @@ import NextLink from "next/link";
 import clsx from "clsx";
 import { cookies } from "next/headers";
 
-import ChangePassword from "../modules/auth/ChangePassword";
-
 import DropDownProfile from "./DropDownProfile";
 
 import { siteConfig } from "@/src/config/site";
@@ -90,7 +88,6 @@ export const Navbar = async () => {
         justify="end"
       >
         <NavbarItem className="hidden sm:flex gap-2">
-          <ChangePassword user={user} />
           <ThemeSwitch />
         </NavbarItem>
         <NavbarItem className="hidden sm:flex gap-2" />

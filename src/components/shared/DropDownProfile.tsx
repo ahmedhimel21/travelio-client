@@ -8,6 +8,8 @@ import {
   Link,
 } from "@nextui-org/react";
 
+import ChangePassword from "../modules/auth/ChangePassword";
+
 import Logout from "./Logout";
 
 const DropDownProfile = ({
@@ -27,7 +29,7 @@ const DropDownProfile = ({
 }) => {
   return (
     <div className="flex items-center gap-4">
-      <Dropdown placement="bottom-start">
+      <Dropdown closeOnSelect={false} placement="bottom-start">
         <DropdownTrigger>
           <User
             as="button"
@@ -54,13 +56,16 @@ const DropDownProfile = ({
           <DropdownItem key="Userprofile">
             <Link href="/profile">Profile</Link>
           </DropdownItem>
-          {/* {user?.data?.password && user?.data?.password ? (
-            <DropdownItem key="changePassword">
+          {user?.data?.password && user?.data?.password ? (
+            <DropdownItem
+              key="changePassword"
+              onClick={(e) => e.stopPropagation()}
+            >
               <ChangePassword user={user} />
             </DropdownItem>
           ) : (
             <DropdownItem key="changePasswordDisabled" />
-          )} */}
+          )}
           <DropdownItem key="logout">
             <Logout />
           </DropdownItem>
