@@ -11,7 +11,7 @@ const PostCreation = ({ user }: { user: any }) => {
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
 
   return (
-    <div className="w-full max-w-3xl">
+    <div className="w-full max-w-4xl">
       <CustomModal isOpen={isOpen} size="3xl" onOpenChange={onOpenChange}>
         <ModalHeader className="p-4">Create post</ModalHeader>
         <CreatePostForm user={user} onClose={onClose} />

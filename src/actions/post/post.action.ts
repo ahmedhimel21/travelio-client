@@ -16,7 +16,15 @@ export const getUserPost = async (id: string) => {
   try {
     const response = await nexiosInstance.get(`/post/${id}`);
 
-    // console.log(response);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getAllPost = async () => {
+  try {
+    const response = await nexiosInstance.get("/post");
 
     return response.data;
   } catch (error) {
