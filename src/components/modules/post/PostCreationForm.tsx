@@ -46,7 +46,7 @@ const CreatePostForm = ({ onClose, user }: { onClose: any; user: any }) => {
     const creatingPost: any = await createPost(postData);
 
     if (creatingPost && creatingPost.success) {
-      toast.success(creatingPost.message);
+      toast.success(creatingPost.message, { duration: 5000 });
       ref.current!.reset();
       onClose();
     }

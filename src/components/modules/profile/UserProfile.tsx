@@ -13,7 +13,7 @@ import UpdateUserProfile from "./UpdateUserProfile";
 
 import { verifyProfile } from "@/src/actions/profile/profile.action";
 
-const UserProfile = ({ user }: { user: any }) => {
+const UserProfile = async ({ user, posts }: { user: any; posts: any }) => {
   const dateStr = user?.data?.createdAt;
   const date = new Date(dateStr);
 
@@ -102,7 +102,10 @@ const UserProfile = ({ user }: { user: any }) => {
         </div>
         <Divider className="mt-8" />
         <div className="mt-8">
-          <PostCard />
+          {posts &&
+            posts?.data?.map((post: any) => (
+              <PostCard key={post?._id} post={post} />
+            ))}
         </div>
       </Card>
     </div>
