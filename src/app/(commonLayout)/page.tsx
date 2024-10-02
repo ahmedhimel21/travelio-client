@@ -16,7 +16,7 @@ export default async function Home() {
       <PostCreation user={user} />
       {posts &&
         posts?.data?.map((post: any) => (
-          <NewsFeedPostCard key={post?._id} post={post} />
+          <NewsFeedPostCard key={post?._id} post={post} user={user} />
         ))}
     </section>
   );
