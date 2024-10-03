@@ -1,8 +1,10 @@
 "use client";
 import { Avatar, Button, Card, Divider } from "@nextui-org/react";
-import { FaArrowDown, FaArrowUp, FaComment } from "react-icons/fa6";
+import { FaArrowDown, FaArrowUp } from "react-icons/fa6";
 import { RiUserFollowFill } from "react-icons/ri";
 import { useEffect, useState } from "react";
+
+import CommentModal from "../comment/CommentModal";
 
 import { downVote, upVote } from "@/src/actions/post/post.action";
 
@@ -104,8 +106,8 @@ const NewsFeedPostCard = ({ post, user }: { post: any; user: any }) => {
             />
           </div>
           <div>
-            <FaComment className="cursor-pointer hover:text-gray-800 dark:hover:text-gray-200" />
-            <span className="ml-1">{"45"} Comments</span>
+            <CommentModal post={post} user={user} />
+            <span className="ml-1">{post?.comments?.length} Comments</span>
           </div>
         </div>
       </Card>
