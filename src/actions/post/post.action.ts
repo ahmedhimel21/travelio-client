@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 "use server";
 
 import { revalidateTag } from "next/cache";
@@ -33,17 +34,24 @@ export const getUserPost = async (id: string) => {
 };
 
 // get all user post
-export const getAllPost = async () => {
-  try {
-    const response = await nexiosInstance.get("/post", {
-      next: {
-        tags: ["posts"],
-      },
-    });
+export const getAllPost = async (page = 1) => {
+  const query = new URLSearchParams({ page: String(page), limit: "10" });
 
-    return response.data;
+  try {
+    const response: any = await nexiosInstance.get(
+      `/post?${query.toString()}`,
+      {
+        next: {
+          tags: ["posts"],
+        },
+      }
+    );
+
+    return response?.data?.data;
   } catch (error) {
     console.log(error);
+
+    return { posts: [], totalPages: 0 };
   }
 };
 
