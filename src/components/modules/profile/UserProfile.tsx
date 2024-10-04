@@ -7,13 +7,14 @@ import { FaLocationArrow, FaCalendar } from "react-icons/fa6";
 import { GoVerified } from "react-icons/go";
 import toast from "react-hot-toast";
 
-import PostCard from "../post/PostCard";
+import PostCreation from "../post/PostCreation";
+import NewsFeedPostCard from "../post/NewsFeedPostCard";
 
 import UpdateUserProfile from "./UpdateUserProfile";
 
 import { verifyProfile } from "@/src/actions/profile/profile.action";
 
-const UserProfile = async ({ user, posts }: { user: any; posts: any }) => {
+const UserProfile = ({ user, posts }: { user: any; posts: any }) => {
   const dateStr = user?.data?.createdAt;
   const date = new Date(dateStr);
 
@@ -38,76 +39,84 @@ const UserProfile = async ({ user, posts }: { user: any; posts: any }) => {
   };
 
   return (
-    <div className=" text-white p-6 min-h-screen flex justify-center">
-      <Card className="p-6 max-w-3xl w-full  rounded-lg">
-        <div className="relative">
-          {/* Profile Picture */}
-          <Avatar
-            className="absolute -bottom-12 left-6 border-4 border-black rounded-full"
-            size="lg"
-            src={user?.data?.img} // Replace with actual profile image URL
-          />
-        </div>
-
-        <div className="pt-14 pl-6">
-          {/* User Info */}
-          <div>
-            <h2 className="text-xl font-semibold">
-              @{user?.data?.name}
-              <span className="ml-3">
-                {user && user?.data?.verified ? (
-                  <Button disabled color="primary" size="md" variant="bordered">
-                    <GoVerified color="primary" /> Verified
-                  </Button>
-                ) : (
-                  <Button
-                    color="primary"
-                    size="md"
-                    variant="bordered"
-                    onClick={handleVerifyProfile}
-                  >
-                    <GoVerified color="primary" /> Get Verified
-                  </Button>
-                )}
-              </span>
-            </h2>
+    <div className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
+      <PostCreation user={user} />
+      <div className=" text-white p-6 w-full max-w-[950px]">
+        <Card className="p-6 rounded-lg">
+          <div className="relative">
+            {/* Profile Picture */}
+            <Avatar
+              className="absolute -bottom-12 left-6 border-4 border-black rounded-full"
+              size="lg"
+              src={user?.data?.img} // Replace with actual profile image URL
+            />
           </div>
 
-          {/* Location and Joined Date */}
-          <div className="flex items-center space-x-4 mt-4 text-gray-400">
-            <div className="flex items-center space-x-1">
-              <FaLocationArrow />
-              <span>Jessore, Bangladesh</span>
+          <div className="pt-14 pl-6">
+            {/* User Info */}
+            <div>
+              <h2 className="text-xl font-semibold">
+                @{user?.data?.name}
+                <span className="ml-3">
+                  {user && user?.data?.verified ? (
+                    <Button
+                      disabled
+                      color="primary"
+                      size="md"
+                      variant="bordered"
+                    >
+                      <GoVerified color="primary" /> Verified
+                    </Button>
+                  ) : (
+                    <Button
+                      color="primary"
+                      size="md"
+                      variant="bordered"
+                      onClick={handleVerifyProfile}
+                    >
+                      <GoVerified color="primary" /> Get Verified
+                    </Button>
+                  )}
+                </span>
+              </h2>
             </div>
-            <div className="flex items-center space-x-1">
-              <FaCalendar />
-              <span>Joined {formattedDate}</span>
-            </div>
-          </div>
 
-          {/* Follow and Follower Stats */}
-          <div className="flex space-x-8 mt-4 justify-between items-center">
-            <div className="flex gap-8">
-              <p className="font-semibold">
-                {user?.data?.following.length}{" "}
-                <span className="text-gray-400">Following</span>
-              </p>
-              <p className="font-semibold">
-                {user?.data?.followers.length}{" "}
-                <span className="text-gray-400">Follower</span>
-              </p>
+            {/* Location and Joined Date */}
+            <div className="flex items-center space-x-4 mt-4 text-gray-400">
+              <div className="flex items-center space-x-1">
+                <FaLocationArrow />
+                <span>Jessore, Bangladesh</span>
+              </div>
+              <div className="flex items-center space-x-1">
+                <FaCalendar />
+                <span>Joined {formattedDate}</span>
+              </div>
             </div>
-            <UpdateUserProfile user={user} />
+
+            {/* Follow and Follower Stats */}
+            <div className="flex space-x-8 mt-4 justify-between items-center">
+              <div className="flex gap-8">
+                <p className="font-semibold">
+                  {user?.data?.following.length}{" "}
+                  <span className="text-gray-400">Following</span>
+                </p>
+                <p className="font-semibold">
+                  {user?.data?.followers.length}{" "}
+                  <span className="text-gray-400">Follower</span>
+                </p>
+              </div>
+              <UpdateUserProfile user={user} />
+            </div>
           </div>
-        </div>
-        <Divider className="mt-8" />
-        <div className="mt-8">
-          {posts &&
-            posts?.data?.map((post: any) => (
-              <PostCard key={post?._id} post={post} />
-            ))}
-        </div>
-      </Card>
+          <Divider className="mt-8" />
+          <div className="mt-8">
+            {posts &&
+              posts?.data?.map((post: any, index: number) => (
+                <NewsFeedPostCard key={index} post={post} user={user} />
+              ))}
+          </div>
+        </Card>
+      </div>
     </div>
   );
 };

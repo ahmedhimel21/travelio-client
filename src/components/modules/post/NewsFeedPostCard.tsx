@@ -41,7 +41,6 @@ const NewsFeedPostCard = ({ post, user }: { post: any; user: any }) => {
     await downVote(id);
   };
 
-  const isSameAuthor = user?.data?._id === post?.author?._id;
   const handleFollow = async (userId: string) => {
     console.log(userId);
     if (isFollowing) {

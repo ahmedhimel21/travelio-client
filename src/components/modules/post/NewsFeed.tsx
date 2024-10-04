@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { Spinner } from "@nextui-org/react";
 
 import NewsFeedPostCard from "./NewsFeedPostCard";
 
@@ -55,7 +56,11 @@ const NewsFeed = ({ user }: { user: any }) => {
         dataLength={posts.length} // Number of posts loaded so far
         endMessage={<p className="text-center">No more posts to show.</p>}
         hasMore={hasMore} // Whether more posts are available
-        loader={"Loading...."}
+        loader={
+          <div className="flex justify-center">
+            <Spinner />
+          </div>
+        }
         next={loadMorePosts} // Function to fetch the next page of posts
       >
         {posts.map((post: any, index) => (
