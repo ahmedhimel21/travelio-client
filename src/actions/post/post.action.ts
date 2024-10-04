@@ -34,12 +34,10 @@ export const getUserPost = async (id: string) => {
 };
 
 // get all user post
-export const getAllPost = async (page = 1) => {
-  const query = new URLSearchParams({ page: String(page), limit: "10" });
-
+export const getAllPost = async (page: any) => {
   try {
     const response: any = await nexiosInstance.get(
-      `/post?${query.toString()}`,
+      `/post?limit=5&page=${page}&sort=-createdAt`,
       {
         next: {
           tags: ["posts"],

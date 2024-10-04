@@ -7,8 +7,12 @@ import { useEffect, useState } from "react";
 import CommentModal from "../comment/CommentModal";
 
 import { downVote, upVote } from "@/src/actions/post/post.action";
+import { followUser, unfollowUser } from "@/src/actions/user/user.action";
 
 const NewsFeedPostCard = ({ post, user }: { post: any; user: any }) => {
+  const [isFollowing, setIsFollowing] = useState(
+    user?.data?.following.includes(post?.author?._id)
+  );
   const [userVote, setUserVote] = useState(null);
   const dateStr = post?.createdAt;
   const date = new Date(dateStr);
@@ -37,6 +41,21 @@ const NewsFeedPostCard = ({ post, user }: { post: any; user: any }) => {
     await downVote(id);
   };
 
+  const isSameAuthor = user?.data?._id === post?.author?._id;
+  const handleFollow = async (userId: string) => {
+    console.log(userId);
+    if (isFollowing) {
+      // Unfollow logic
+      await unfollowUser(userId);
+    } else {
+      // Follow logic
+      await followUser(userId);
+    }
+
+    // Toggle follow state
+    setIsFollowing(!isFollowing);
+  };
+
   return (
     <div className="w-full max-w-4xl">
       <Card
@@ -55,9 +74,17 @@ const NewsFeedPostCard = ({ post, user }: { post: any; user: any }) => {
               {post?.author?.name}
             </h3>
           </div>
-          <Button disabled color="primary" size="md" variant="bordered">
-            <RiUserFollowFill color="primary" /> Follow
-          </Button>
+          {post.author._id !== user?.data?._id && (
+            <Button
+              color="primary"
+              size="md"
+              variant="bordered"
+              onClick={() => handleFollow(post?.author?._id)}
+            >
+              <RiUserFollowFill color="primary" />{" "}
+              {isFollowing ? "Following" : "Follow"}
+            </Button>
+          )}
         </div>
 
         {/* Post Title and Date */}
