@@ -64,7 +64,12 @@ const NewsFeed = ({ user }: { user: any }) => {
         next={loadMorePosts} // Function to fetch the next page of posts
       >
         {posts.map((post: any, index) => (
-          <NewsFeedPostCard key={index} post={post} user={user} />
+          <NewsFeedPostCard
+            key={index}
+            post={post}
+            setPosts={setPosts}
+            user={user}
+          />
         ))}
       </InfiniteScroll>
     </div>

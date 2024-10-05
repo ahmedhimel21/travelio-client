@@ -9,11 +9,19 @@ import CommentModal from "../comment/CommentModal";
 import { downVote, upVote } from "@/src/actions/post/post.action";
 import { followUser, unfollowUser } from "@/src/actions/user/user.action";
 
-const NewsFeedPostCard = ({ post, user }: { post: any; user: any }) => {
+const NewsFeedPostCard = ({
+  post,
+  user,
+  setPosts,
+}: {
+  post: any;
+  user: any;
+  setPosts: any;
+}) => {
   const [isFollowing, setIsFollowing] = useState(
     user?.data?.following.includes(post?.author?._id)
   );
-  const [userVote, setUserVote] = useState(null);
+  const [userVote, setUserVote] = useState<"upvote" | "downvote" | null>(null);
   const dateStr = post?.createdAt;
   const date = new Date(dateStr);
 
@@ -34,15 +42,61 @@ const NewsFeedPostCard = ({ post, user }: { post: any; user: any }) => {
 
   //handle up vote
   const handleUpVote = async (id: string) => {
+    setPosts((prevPosts: any) =>
+      prevPosts.map((prevPost: any) => {
+        if (prevPost._id === id) {
+          const newUpVotes =
+            userVote === "upvote" ? prevPost.upVotes - 1 : prevPost.upVotes + 1;
+          const newDownVotes =
+            userVote === "downvote"
+              ? prevPost.downVotes - 1
+              : prevPost.downVotes;
+
+          return {
+            ...prevPost,
+            upVotes: newUpVotes,
+            downVotes: newDownVotes,
+          };
+        }
+
+        return prevPost;
+      })
+    );
+
+    // Toggle vote state
+    setUserVote(userVote === "upvote" ? null : "upvote");
     await upVote(id);
   };
-
+  //handle down vote
   const handleDownVote = async (id: string) => {
+    // Optimistically update the vote count in the frontend
+    setPosts((prevPosts: any) =>
+      prevPosts.map((prevPost: any) => {
+        if (prevPost._id === id) {
+          const newDownVotes =
+            userVote === "downvote"
+              ? prevPost.downVotes - 1
+              : prevPost.downVotes + 1;
+          const newUpVotes =
+            userVote === "upvote" ? prevPost.upVotes - 1 : prevPost.upVotes;
+
+          return {
+            ...prevPost,
+            downVotes: newDownVotes,
+            upVotes: newUpVotes,
+          };
+        }
+
+        return prevPost;
+      })
+    );
+
+    // Toggle vote state
+    setUserVote(userVote === "downvote" ? null : "downvote");
     await downVote(id);
   };
 
   const handleFollow = async (userId: string) => {
-    console.log(userId);
     if (isFollowing) {
       // Unfollow logic
       await unfollowUser(userId);

@@ -48,8 +48,10 @@ const LoginForm = () => {
             fullWidth
             aria-label="email"
             className="w-full md:max-w-xs text-white placeholder-white border-white"
+            isRequired={true}
             name="email"
             placeholder="Enter your email"
+            required={true}
             size="lg"
             style={{ color: "white" }}
             type="email"
@@ -82,6 +84,7 @@ const LoginForm = () => {
             }
             name="password"
             placeholder="Enter your password"
+            required={true}
             size="lg"
             style={{ color: "white" }}
             type={isVisible ? "text" : "password"}
