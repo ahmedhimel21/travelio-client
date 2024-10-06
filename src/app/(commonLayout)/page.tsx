@@ -1,6 +1,5 @@
 import { cookies } from "next/headers";
 
-import PostCreation from "@/src/components/modules/post/PostCreation";
 import { getUser } from "@/src/helpers/getUserInfo";
 import NewsFeed from "@/src/components/modules/post/NewsFeed";
 
@@ -9,8 +8,7 @@ export default async function Home() {
   const user = await getUser(token as { value: string });
 
   return (
-    <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
-      <PostCreation user={user} />
+    <section className="flex flex-col items-center justify-center">
       <NewsFeed user={user} />
     </section>
   );

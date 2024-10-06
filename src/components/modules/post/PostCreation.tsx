@@ -7,14 +7,20 @@ import CustomModal from "../../shared/CustomModal";
 
 import CreatePostForm from "./PostCreationForm";
 
-const PostCreation = ({ user }: { user: any }) => {
+const PostCreation = ({
+  user,
+  addNewPost,
+}: {
+  user: any;
+  addNewPost?: any;
+}) => {
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
 
   return (
     <div className="w-full max-w-4xl">
       <CustomModal isOpen={isOpen} size="3xl" onOpenChange={onOpenChange}>
         <ModalHeader className="p-4">Create post</ModalHeader>
-        <CreatePostForm user={user} onClose={onClose} />
+        <CreatePostForm addNewPost={addNewPost} user={user} onClose={onClose} />
       </CustomModal>
       <div
         className="flex items-center p-4 border rounded-md cursor-pointer w-full bg-white-100 shadow-lg gap-4"

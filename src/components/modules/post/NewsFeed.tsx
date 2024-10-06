@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import { useState, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Spinner } from "@nextui-org/react";
 
 import NewsFeedPostCard from "./NewsFeedPostCard";
+import PostCreation from "./PostCreation";
 
 import { getAllPost } from "@/src/actions/post/post.action";
 import { IPost } from "@/src/types/post.types";
@@ -50,8 +52,16 @@ const NewsFeed = ({ user }: { user: any }) => {
     setPage((prevPage) => prevPage + 1); // Increment the page number
   };
 
+  // Function to add a new post immediately to the newsfeed
+  const addNewPost = (newPost: IPost) => {
+    setPosts((prevPosts) => [newPost, ...prevPosts]); // Add the new post at the top
+  };
+
   return (
     <div className="w-full max-w-4xl">
+      <div className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
+        <PostCreation addNewPost={addNewPost} user={user} />
+      </div>
       <InfiniteScroll
         dataLength={posts.length} // Number of posts loaded so far
         endMessage={<p className="text-center">No more posts to show.</p>}

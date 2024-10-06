@@ -24,7 +24,7 @@ const CommentModal = ({ user, post }: { user: any; post: any }) => {
     <div className="my-3">
       <CustomModal isOpen={isOpen} size="3xl" onOpenChange={onOpenChange}>
         <ModalHeader className="flex items-center justify-center">
-          <h1>{post?.author?.name.split(" ")[0]}&apos;s post</h1>
+          <h1>{post?.author?.name?.split(" ")[0]}&apos;s post</h1>
         </ModalHeader>
         <CommentSection
           comments={comments}

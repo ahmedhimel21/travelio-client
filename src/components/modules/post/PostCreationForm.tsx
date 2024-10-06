@@ -16,7 +16,16 @@ import ReuseableInput from "@/src/forms/ReusableInput";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
-const CreatePostForm = ({ onClose, user }: { onClose: any; user: any }) => {
+const CreatePostForm = ({
+  onClose,
+  user,
+  addNewPost,
+}: {
+  onClose: any;
+  user: any;
+  addNewPost?: any;
+}) => {
+  console.log(addNewPost);
   const [content, setContent] = useState("");
   const [premium, setIsPremium] = useState(false);
 
@@ -47,6 +56,14 @@ const CreatePostForm = ({ onClose, user }: { onClose: any; user: any }) => {
     // showing success or error message
     if (creatingPost && creatingPost.success) {
       toast.success(creatingPost.message, { duration: 5000 });
+      // After successful post creation, call the callback to add it to the newsfeed
+      // Check if the `newPost` function is passed
+      if (typeof addNewPost === "function") {
+        addNewPost(creatingPost?.data); // Call `newPost` function if it's passed
+      } else {
+        console.log("newPost function is undefined, skipping.");
+      }
+      // addNewPost(creatingPost?.data);
       onClose();
     }
     if (creatingPost && !creatingPost.success) {

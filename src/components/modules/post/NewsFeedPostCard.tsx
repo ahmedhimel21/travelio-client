@@ -3,6 +3,7 @@ import { Avatar, Button, Card, Divider } from "@nextui-org/react";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa6";
 import { RiUserFollowFill } from "react-icons/ri";
 import { useEffect, useState } from "react";
+import { RiVerifiedBadgeLine } from "react-icons/ri";
 
 import CommentModal from "../comment/CommentModal";
 
@@ -16,7 +17,7 @@ const NewsFeedPostCard = ({
 }: {
   post: any;
   user: any;
-  setPosts: any;
+  setPosts?: any;
 }) => {
   const [isFollowing, setIsFollowing] = useState(
     user?.data?.following.includes(post?.author?._id)
@@ -42,26 +43,30 @@ const NewsFeedPostCard = ({
 
   //handle up vote
   const handleUpVote = async (id: string) => {
-    setPosts((prevPosts: any) =>
-      prevPosts.map((prevPost: any) => {
-        if (prevPost._id === id) {
-          const newUpVotes =
-            userVote === "upvote" ? prevPost.upVotes - 1 : prevPost.upVotes + 1;
-          const newDownVotes =
-            userVote === "downvote"
-              ? prevPost.downVotes - 1
-              : prevPost.downVotes;
+    if (setPosts) {
+      setPosts((prevPosts: any) =>
+        prevPosts.map((prevPost: any) => {
+          if (prevPost._id === id) {
+            const newUpVotes =
+              userVote === "upvote"
+                ? prevPost.upVotes - 1
+                : prevPost.upVotes + 1;
+            const newDownVotes =
+              userVote === "downvote"
+                ? prevPost.downVotes - 1
+                : prevPost.downVotes;
 
-          return {
-            ...prevPost,
-            upVotes: newUpVotes,
-            downVotes: newDownVotes,
-          };
-        }
+            return {
+              ...prevPost,
+              upVotes: newUpVotes,
+              downVotes: newDownVotes,
+            };
+          }
 
-        return prevPost;
-      })
-    );
+          return prevPost;
+        })
+      );
+    }
 
     // Toggle vote state
     setUserVote(userVote === "upvote" ? null : "upvote");
@@ -69,28 +74,29 @@ const NewsFeedPostCard = ({
   };
   //handle down vote
   const handleDownVote = async (id: string) => {
-    // Optimistically update the vote count in the frontend
-    setPosts((prevPosts: any) =>
-      prevPosts.map((prevPost: any) => {
-        if (prevPost._id === id) {
-          const newDownVotes =
-            userVote === "downvote"
-              ? prevPost.downVotes - 1
-              : prevPost.downVotes + 1;
-          const newUpVotes =
-            userVote === "upvote" ? prevPost.upVotes - 1 : prevPost.upVotes;
+    if (setPosts) {
+      // Optimistically update the vote count in the frontend
+      setPosts((prevPosts: any) =>
+        prevPosts.map((prevPost: any) => {
+          if (prevPost._id === id) {
+            const newDownVotes =
+              userVote === "downvote"
+                ? prevPost.downVotes - 1
+                : prevPost.downVotes + 1;
+            const newUpVotes =
+              userVote === "upvote" ? prevPost.upVotes - 1 : prevPost.upVotes;
 
-          return {
-            ...prevPost,
-            downVotes: newDownVotes,
-            upVotes: newUpVotes,
-          };
-        }
+            return {
+              ...prevPost,
+              downVotes: newDownVotes,
+              upVotes: newUpVotes,
+            };
+          }
 
-        return prevPost;
-      })
-    );
-
+          return prevPost;
+        })
+      );
+    }
     // Toggle vote state
     setUserVote(userVote === "downvote" ? null : "downvote");
     await downVote(id);
@@ -123,8 +129,11 @@ const NewsFeedPostCard = ({
               size="lg"
               src={post?.author?.img} // Replace with actual profile image URL
             />
-            <h3 className="text-lg font-bold text-gray-800 dark:text-white">
-              {post?.author?.name}
+            <h3 className="text-lg font-bold text-gray-800 dark:text-white flex items-center gap-2">
+              {post?.author?.name}{" "}
+              {post?.author?.verified && (
+                <RiVerifiedBadgeLine className="text-blue-500" />
+              )}
             </h3>
           </div>
           {post.author._id !== user?.data?._id && (
