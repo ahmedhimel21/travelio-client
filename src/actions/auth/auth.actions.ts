@@ -82,8 +82,6 @@ export const forgetPassword = async (pre: any, formData: any): Promise<any> => {
       email: forgetPasswordData.email,
     });
 
-    console.log(response);
-
     return response.data;
   } catch (error) {
     console.log(error);

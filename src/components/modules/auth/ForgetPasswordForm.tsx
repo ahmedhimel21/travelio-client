@@ -24,7 +24,7 @@ const ForgetPasswordForm = () => {
   }, [state, ref]);
 
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex items-center justify-center pt-16">
       <Card className="p-6 max-w-lg w-full shadow-lg rounded-lg">
         <h2 className="text-3xl font-semibold text-center mb-6 text-gray-700">
           Reset your password
@@ -32,7 +32,6 @@ const ForgetPasswordForm = () => {
         <form ref={ref} action={formAction} className="space-y-6">
           <Input
             className="w-full"
-            label="Enter your email"
             name="email"
             placeholder="youremail@example.com"
             required={true}

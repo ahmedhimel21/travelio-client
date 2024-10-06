@@ -1,4 +1,3 @@
-import Footer from "@/src/components/shared/Footer";
 import { Navbar } from "@/src/components/shared/navbar";
 
 const commonLayout = ({ children }: { children: React.ReactNode }) => {
@@ -8,7 +7,6 @@ const commonLayout = ({ children }: { children: React.ReactNode }) => {
       <main className="container mx-auto max-w-7xl pt-8 px-6 flex-grow">
         {children}
       </main>
-      <Footer />
     </div>
   );
 };
