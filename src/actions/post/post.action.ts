@@ -78,3 +78,17 @@ export const downVote = async (id: string) => {
     console.log(error);
   }
 };
+
+export const getPostById = async (postId: string) => {
+  try {
+    const result = await nexiosInstance.get(`/post/getPost/${postId}`, {
+      next: {
+        tags: ["posts"],
+      },
+    });
+
+    return result?.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

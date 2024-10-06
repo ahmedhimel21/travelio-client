@@ -1,36 +1,88 @@
 "use client";
-import { Avatar, Card, Divider } from "@nextui-org/react";
-import { FaArrowDown, FaArrowUp, FaComment } from "react-icons/fa6";
+import { Avatar, Button, Card, Divider } from "@nextui-org/react";
+import { useState } from "react";
+import { FaArrowDown, FaArrowUp } from "react-icons/fa6";
+import { RiUserFollowFill, RiVerifiedBadgeLine } from "react-icons/ri";
 
-const PostCard = async ({ post }: { post: any }) => {
-  const dateStr = post?.createdAt;
-  const date = new Date(dateStr);
+import CommentModal from "../comment/CommentModal";
 
-  // Extract month and year
-  const options = { year: "numeric", month: "long" };
-  const formattedDate = date.toLocaleDateString("en-US", options as any);
+import { dateFormatter } from "@/src/helpers/dateFormatter";
+import { followUser, unfollowUser } from "@/src/actions/user/user.action";
+import { downVote, upVote } from "@/src/actions/post/post.action";
+
+const PostCard = ({ post, user }: { post: any; user: any }) => {
+  const [userVote, setUserVote] = useState<"upvote" | "downvote" | null>(null);
+  const [isFollowing, setIsFollowing] = useState(
+    user?.data?.following.includes(post?.data?.author?._id)
+  );
+  // date formatter fn
+  const formattedDate = dateFormatter(post?.data?.createdAt);
+
+  // handle follow
+  const handleFollow = async (userId: string) => {
+    if (isFollowing) {
+      // Unfollow logic
+      await unfollowUser(userId);
+    } else {
+      // Follow logic
+      await followUser(userId);
+    }
+
+    // Toggle follow state
+    setIsFollowing(!isFollowing);
+  };
+
+  //handle up vote
+  const handleUpVote = async (id: string) => {
+    // Toggle vote state
+    setUserVote(userVote === "upvote" ? null : "upvote");
+    await upVote(id);
+  };
+
+  //handle down vote
+  const handleDownVote = async (id: string) => {
+    // Toggle vote state
+    setUserVote(userVote === "downvote" ? null : "downvote");
+    await downVote(id);
+  };
 
   return (
-    <div>
+    <div className="w-full max-w-5xl mx-auto gap-4 py-8 md:py-10">
       <Card
         key={"index"}
-        className="p-6 mb-4 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900"
+        className=" p-4 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900"
       >
-        <div className="mb-3 flex items-center gap-3">
-          {/* Profile Picture */}
-          <Avatar
-            className=" border-4 border-black rounded-full"
-            size="lg"
-            src={post?.author?.img} // Replace with actual profile image URL
-          />
-          <h3 className="text-lg font-bold text-gray-800 dark:text-white">
-            {post?.author?.name}
-          </h3>
+        <div className="mb-3 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            {/* Profile Picture */}
+            <Avatar
+              className=" border-4 border-black rounded-full"
+              size="lg"
+              src={post?.data?.author?.img} // Replace with actual profile image URL
+            />
+            <h3 className="text-lg font-bold text-gray-800 dark:text-white flex items-center gap-2">
+              {post?.data?.author?.name}{" "}
+              {post?.data?.author?.verified && (
+                <RiVerifiedBadgeLine className="text-blue-500" />
+              )}
+            </h3>
+          </div>
+          {post?.data?.author._id !== user?.data?._id && (
+            <Button
+              color="primary"
+              size="md"
+              variant="bordered"
+              onClick={() => handleFollow(post?.data?.author?._id)}
+            >
+              <RiUserFollowFill color="primary" />{" "}
+              {isFollowing ? "Following" : "Follow"}
+            </Button>
+          )}
         </div>
         {/* Post Title and Date */}
         <div className="flex items-center justify-between">
           <h3 className="text-xl font-semibold text-gray-800 dark:text-white">
-            {post?.title}
+            {post?.data?.title}
           </h3>
           <p className="text-gray-500 text-sm dark:text-gray-400">
             {formattedDate}
@@ -38,31 +90,45 @@ const PostCard = async ({ post }: { post: any }) => {
         </div>
 
         {/* Post Image (if available) */}
-        {post?.image && (
+        {post?.data?.image && (
           <div className="my-4">
             <img
               alt={"post.title"}
               className="w-full h-auto rounded-lg"
-              src={post?.image}
+              src={post?.data?.image}
             />
           </div>
         )}
 
         {/* Post Content */}
-        <p className="text-gray-700 dark:text-gray-300 mt-2">{post?.content}</p>
+        <p className="text-gray-700 dark:text-gray-300 mt-2">
+          {post?.data?.content}
+        </p>
 
         <Divider className="my-4 dark:bg-gray-700" />
 
         {/* Post Interactions */}
         <div className="flex items-center justify-between text-gray-600 dark:text-gray-400">
           <div className="flex items-center space-x-2">
-            <FaArrowUp className="cursor-pointer hover:text-blue-600 dark:hover:text-blue-400" />
-            <span>{post?.upVotes}</span>
-            <FaArrowDown className="cursor-pointer hover:text-red-600 dark:hover:text-red-400" />
+            <FaArrowUp
+              className={`cursor-pointer ${
+                userVote === "upvote" ? "text-blue-600" : "hover:text-blue-600"
+              }`}
+              onClick={() => handleUpVote(post?.data?._id)}
+            />
+            <span>{post?.data?.upVotes}</span>
+            <FaArrowDown
+              className={`cursor-pointer ${
+                userVote === "downvote" ? "text-red-600" : "hover:text-red-600"
+              }`}
+              onClick={() => handleDownVote(post?.data?._id)}
+            />
           </div>
           <div>
-            <FaComment className="cursor-pointer hover:text-gray-800 dark:hover:text-gray-200" />
-            <span className="ml-1">{"45"} Comments</span>
+            <CommentModal post={post?.data} user={user} />
+            <span className="ml-1">
+              {post?.data?.comments?.length} Comments
+            </span>
           </div>
         </div>
       </Card>

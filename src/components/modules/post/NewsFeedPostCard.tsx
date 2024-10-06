@@ -1,5 +1,5 @@
 "use client";
-import { Avatar, Button, Card, Divider } from "@nextui-org/react";
+import { Avatar, Button, Card, Divider, Link } from "@nextui-org/react";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa6";
 import { RiUserFollowFill } from "react-icons/ri";
 import { useEffect, useState } from "react";
@@ -9,6 +9,7 @@ import CommentModal from "../comment/CommentModal";
 
 import { downVote, upVote } from "@/src/actions/post/post.action";
 import { followUser, unfollowUser } from "@/src/actions/user/user.action";
+import { dateFormatter } from "@/src/helpers/dateFormatter";
 
 const NewsFeedPostCard = ({
   post,
@@ -19,16 +20,10 @@ const NewsFeedPostCard = ({
   user: any;
   setPosts?: any;
 }) => {
-  const [isFollowing, setIsFollowing] = useState(
-    user?.data?.following.includes(post?.author?._id)
-  );
   const [userVote, setUserVote] = useState<"upvote" | "downvote" | null>(null);
-  const dateStr = post?.createdAt;
-  const date = new Date(dateStr);
-
-  // Extract month and year
-  const options = { year: "numeric", month: "long" };
-  const formattedDate = date.toLocaleDateString("en-US", options as any);
+  const [commentCount, setCommentCount] = useState(0);
+  // date formatter fn
+  const formattedDate = dateFormatter(post?.createdAt);
 
   useEffect(() => {
     const existingVote = post.voters.find(
@@ -101,18 +96,49 @@ const NewsFeedPostCard = ({
     setUserVote(userVote === "downvote" ? null : "downvote");
     await downVote(id);
   };
-
+  // Handle follow/unfollow
   const handleFollow = async (userId: string) => {
-    if (isFollowing) {
-      // Unfollow logic
-      await unfollowUser(userId);
-    } else {
-      // Follow logic
-      await followUser(userId);
-    }
+    if (setPosts) {
+      if (user?.data?.following.includes(post.author._id)) {
+        await unfollowUser(userId);
 
-    // Toggle follow state
-    setIsFollowing(!isFollowing);
+        // Update all posts by the same author to reflect unfollow
+        setPosts((prevPosts: any) =>
+          prevPosts.map((prevPost: any) => {
+            if (prevPost.author._id === post.author._id) {
+              return {
+                ...prevPost,
+                author: {
+                  ...prevPost.author,
+                  isFollowing: false, // Update follow state for all posts by this author
+                },
+              };
+            }
+
+            return prevPost;
+          })
+        );
+      } else {
+        await followUser(userId);
+
+        // Update all posts by the same author to reflect follow
+        setPosts((prevPosts: any) =>
+          prevPosts.map((prevPost: any) => {
+            if (prevPost.author._id === post.author._id) {
+              return {
+                ...prevPost,
+                author: {
+                  ...prevPost.author,
+                  isFollowing: true, // Update follow state for all posts by this author
+                },
+              };
+            }
+
+            return prevPost;
+          })
+        );
+      }
+    }
   };
 
   return (
@@ -144,7 +170,9 @@ const NewsFeedPostCard = ({
               onClick={() => handleFollow(post?.author?._id)}
             >
               <RiUserFollowFill color="primary" />{" "}
-              {isFollowing ? "Following" : "Follow"}
+              {user?.data?.following.includes(post.author._id)
+                ? "Following"
+                : "Follow"}
             </Button>
           )}
         </div>
@@ -195,8 +223,17 @@ const NewsFeedPostCard = ({
             />
           </div>
           <div>
-            <CommentModal post={post} user={user} />
-            <span className="ml-1">{post?.comments?.length} Comments</span>
+            <Link href={`/post/${post?._id}`}>Read more</Link>
+          </div>
+          <div>
+            <CommentModal
+              post={post}
+              setCommentCount={setCommentCount}
+              user={user}
+            />
+            <span className="ml-1">
+              {commentCount ? commentCount : post?.comments?.length} Comments
+            </span>
           </div>
         </div>
       </Card>

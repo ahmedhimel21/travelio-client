@@ -19,11 +19,13 @@ const CommentSection = ({
   comments,
   post,
   setComments,
+  setCommentCount,
 }: {
   user: any;
   comments: any;
   post: any;
   setComments: any;
+  setCommentCount: any;
 }) => {
   const [editingCommentId, setEditingCommentId] = useState<string | null>(null); // State to track which comment is being edited
   const [editContent, setEditContent] = useState<string>("");
@@ -37,10 +39,15 @@ const CommentSection = ({
     };
     const postComment: any = await createComment(commentData);
 
+    console.log(postComment);
+
     if (postComment && postComment?.success) {
       // Add the newly created comment to the existing comments state
       setComments((prevComments: any) => [...prevComments, postComment.data]);
       e.target.reset();
+      if (setCommentCount) {
+        setCommentCount(postComment?.data?.postId?.comments.length + 1);
+      }
     }
   };
 

@@ -9,7 +9,15 @@ import CommentSection from "./CommentSection";
 
 import { getCommentByPostId } from "@/src/actions/comment/comment.action";
 
-const CommentModal = ({ user, post }: { user: any; post: any }) => {
+const CommentModal = ({
+  user,
+  post,
+  setCommentCount,
+}: {
+  user: any;
+  post: any;
+  setCommentCount?: any;
+}) => {
   const [comments, setComments] = useState([]);
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
 
@@ -29,6 +37,7 @@ const CommentModal = ({ user, post }: { user: any; post: any }) => {
         <CommentSection
           comments={comments}
           post={post}
+          setCommentCount={setCommentCount}
           setComments={setComments}
           user={user}
         />
