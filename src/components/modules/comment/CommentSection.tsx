@@ -160,7 +160,7 @@ const CommentSection = ({
       {/*  */}
       <div className="sticky bottom-0 flex gap-3">
         <Avatar src={user?.data?.img} />
-        <form onSubmit={handleCommentCreation}>
+        <form className="w-full" onSubmit={handleCommentCreation}>
           <Input
             fullWidth
             endContent={

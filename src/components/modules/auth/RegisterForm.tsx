@@ -1,7 +1,7 @@
 "use client";
 import { createRef, useEffect } from "react";
 import { useFormState } from "react-dom";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 
 import SocialLogin from "./SocialLogin";
 
@@ -46,6 +46,7 @@ const RegisterForm = () => {
         required={true}
         type="file"
       />
+      <Toaster />
       <button type="submit">Sign Up</button>
     </form>
   );

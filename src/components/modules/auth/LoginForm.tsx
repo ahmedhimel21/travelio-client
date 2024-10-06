@@ -1,7 +1,7 @@
 "use client";
 import React, { createRef, useEffect } from "react";
 import { useFormState } from "react-dom";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import Link from "next/link";
 
 import SocialLogin from "./SocialLogin";
@@ -23,7 +23,7 @@ const LoginForm = () => {
     }
 
     if (state && !state.success) {
-      toast.error(state.message, { duration: 5000 });
+      toast.error(state.message);
     }
   }, [state, ref]);
 
@@ -41,7 +41,10 @@ const LoginForm = () => {
         required={true}
         type="password"
       />
-      <Link href="/forgot-password">Forget Password</Link>
+      <Link className="mr-0" color="primary" href="/forgot-password">
+        Forget Password
+      </Link>
+      <Toaster />
       <button type="submit">Sign In</button>
     </form>
   );

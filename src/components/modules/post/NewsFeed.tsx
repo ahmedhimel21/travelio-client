@@ -43,7 +43,7 @@ const NewsFeed = ({ user }: { user: any }) => {
 
   useEffect(() => {
     fetchPosts();
-  }, [page]);
+  }, [page, posts]);
 
   // Function to load more posts when scrolling
   const loadMorePosts = () => {
@@ -62,6 +62,7 @@ const NewsFeed = ({ user }: { user: any }) => {
           </div>
         }
         next={loadMorePosts} // Function to fetch the next page of posts
+        style={{ overflowY: "hidden" }}
       >
         {posts.map((post: any, index) => (
           <NewsFeedPostCard

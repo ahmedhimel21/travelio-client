@@ -8,6 +8,7 @@ type TCInputProps = {
   initialValue?: string | number;
   disabled?: boolean;
   placeholder?: string;
+  required?: boolean;
 };
 
 const ReuseableInput = ({
@@ -17,6 +18,7 @@ const ReuseableInput = ({
   initialValue,
   disabled,
   placeholder,
+  required,
 }: TCInputProps) => {
   return (
     <div style={{ marginBottom: "0px" }}>
@@ -31,6 +33,7 @@ const ReuseableInput = ({
               {...field}
               disabled={disabled}
               id={name}
+              required={required}
               type={type}
             />
             <div>

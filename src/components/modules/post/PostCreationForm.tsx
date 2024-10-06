@@ -1,35 +1,34 @@
 "use client";
-import { createRef, useState } from "react";
+import { useState } from "react";
 import dynamic from "next/dynamic";
 
 import "react-quill/dist/quill.snow.css";
 import toast, { Toaster } from "react-hot-toast";
+import { Checkbox } from "@nextui-org/react";
+import { Controller, FieldValues } from "react-hook-form";
+import { Form, Input } from "antd";
 
 import { uploadImageToIMGBB } from "@/src/helpers/handleImageUpload";
 import { categories } from "@/src/constant/postCategories";
 import { createPost } from "@/src/actions/post/post.action";
+import ReuseableForm from "@/src/forms/ReusableForm";
+import ReuseableInput from "@/src/forms/ReusableInput";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 const CreatePostForm = ({ onClose, user }: { onClose: any; user: any }) => {
   const [content, setContent] = useState("");
-  const [image, setImage] = useState(null);
   const [premium, setIsPremium] = useState(false);
 
   const [category, setCategory] = useState("");
 
-  const ref = createRef<HTMLFormElement>();
-
-  const handleImageChange = (e: any) => {
-    setImage(e.target.files[0]);
-  };
-
-  const handlePostSubmit = async (e: any) => {
-    e.preventDefault();
+  // handle creating form
+  const onSubmit = async (data: FieldValues) => {
     let postData: any = {};
 
-    if (image) {
-      const uploadedImage = await uploadImageToIMGBB(image);
+    // upload image fn
+    if (data?.image) {
+      const uploadedImage = await uploadImageToIMGBB(data.image);
 
       if (uploadedImage) {
         postData.image = uploadedImage;
@@ -38,16 +37,16 @@ const CreatePostForm = ({ onClose, user }: { onClose: any; user: any }) => {
     if (premium) {
       postData.premium = premium;
     }
-    postData.title = e.target.title.value;
+    postData.title = data?.title;
     postData.content = content.replace(/<[^>]+>/g, "");
     postData.category = category;
     postData.author = user?.data?._id;
-
+    // call create post api
     const creatingPost: any = await createPost(postData);
 
+    // showing success or error message
     if (creatingPost && creatingPost.success) {
       toast.success(creatingPost.message, { duration: 5000 });
-      ref.current!.reset();
       onClose();
     }
     if (creatingPost && !creatingPost.success) {
@@ -56,52 +55,70 @@ const CreatePostForm = ({ onClose, user }: { onClose: any; user: any }) => {
   };
 
   return (
-    <form
-      ref={ref}
-      className="flex flex-col space-y-4"
-      onSubmit={handlePostSubmit}
-    >
-      <input
-        required
-        className="border rounded p-2"
-        name="title"
-        placeholder="Title"
-        type="text"
-      />
-      <ReactQuill
-        placeholder="What's on your mind?"
-        value={content}
-        onChange={setContent}
-      />
-      <select
-        className="border rounded p-2"
-        value={category}
-        onChange={(e) => setCategory(e.target.value)}
-      >
-        <option value="">Select Category</option>
-        {categories.map((cat) => (
-          <option key={cat.id} value={cat.name}>
-            {cat.name}
-          </option>
-        ))}
-      </select>
-      <input accept="image/*" type="file" onChange={handleImageChange} />
-      <div className="flex items-center mb-4">
-        <label className="mr-2" htmlFor="premium">
-          Mark as Premium
-        </label>
-        <input
-          id="premium"
-          name="isPremium"
-          type="checkbox"
-          onChange={(e) => setIsPremium(e.target.checked)}
+    <>
+      <ReuseableForm onSubmit={onSubmit}>
+        <ReuseableInput
+          label="Title"
+          name="title"
+          required={true}
+          type="text"
         />
-      </div>
-      <button className="bg-blue-500 text-white p-2 rounded-md" type="submit">
-        Post
-      </button>
-      <Toaster />
-    </form>
+        <ReactQuill
+          placeholder="What's on your mind?"
+          style={{ marginBottom: "12px" }}
+          value={content}
+          onChange={setContent}
+        />
+        <select
+          className="border rounded p-2 w-full mb-2"
+          required={true}
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+        >
+          <option value="">Select Category</option>
+          {categories.map((cat: any) => (
+            <option key={cat.name} value={cat.value}>
+              {cat.value}
+            </option>
+          ))}
+        </select>
+        <Controller
+          name="image"
+          render={({
+            field: { onChange, value, ...field },
+            fieldState: { error },
+          }) => (
+            <Form.Item label="Picture">
+              <Input
+                type="file"
+                value={value?.fileName}
+                {...field}
+                onChange={(e) => onChange(e.target.files?.[0])}
+              />
+              <div>
+                {error && (
+                  <small style={{ color: "red" }}>{error.message}</small>
+                )}
+              </div>
+            </Form.Item>
+          )}
+        />
+        <Checkbox
+          defaultSelected={false}
+          onChange={(e) => setIsPremium(e.target.checked)}
+        >
+          Premium
+        </Checkbox>
+        <br /> <br />
+        <Toaster />
+        <button
+          className="bg-blue-500 text-white p-2 rounded-md w-full"
+          type="submit"
+        >
+          Post
+        </button>
+      </ReuseableForm>
+    </>
   );
 };
 

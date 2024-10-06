@@ -37,7 +37,7 @@ export const getUserPost = async (id: string) => {
 export const getAllPost = async (page: any) => {
   try {
     const response: any = await nexiosInstance.get(
-      `/post?limit=5&page=${page}&sort=-createdAt`,
+      `/post?limit=2&page=${page}&sort=-createdAt`,
       {
         next: {
           tags: ["posts"],
