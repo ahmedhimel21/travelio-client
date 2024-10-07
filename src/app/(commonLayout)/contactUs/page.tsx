@@ -1,9 +1,9 @@
-import { title } from "@/src/components/shared/primitives";
+import ContactUsPage from "@/src/components/modules/contactUs/ContactPage";
 
-export default function DocsPage() {
+export default function ContactUs() {
   return (
     <div>
-      <h1 className={title()}>Docs</h1>
+      <ContactUsPage />
     </div>
   );
 }

@@ -35,6 +35,9 @@ export async function middleware(request: NextRequest) {
   if (role === "user" && pathname.match(/^\/dashboard/)) {
     return NextResponse.next();
   }
+  if (role === "user" || (role === "admin" && pathname.match("/"))) {
+    return NextResponse.next();
+  }
 
   return NextResponse.redirect(new URL("/", request.url));
 }
@@ -45,5 +48,6 @@ export const config = {
     "/register",
     "/dashboard/:page*",
     "/admin-dashboard/:page*",
+    "/",
   ],
 };

@@ -47,7 +47,7 @@ const PostCard = ({ post, user }: { post: any; user: any }) => {
   };
 
   return (
-    <div className="w-full max-w-5xl mx-auto gap-4 py-8 md:py-10">
+    <div className="w-full max-w-4xl mx-auto gap-4 py-8 md:py-10">
       <Card
         key={"index"}
         className=" p-4 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900"

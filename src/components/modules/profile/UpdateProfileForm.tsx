@@ -26,7 +26,7 @@ const UpdateProfileForm = ({ user, onClose }: { user: any; onClose: any }) => {
 
   return (
     <div className="flex justify-center items-center  bg-gradient-to-b from-blue-50 via-purple-50 to-pink-50">
-      <div className="bg-gradient-to-br from-gray-100 to-gray-300 dark:from-gray-800 dark:to-gray-900 p-8 rounded-lg shadow-md w-full mx-auto">
+      <div className="bg-gradient-to-br p-8 rounded-lg w-full mx-auto">
         <form
           ref={ref}
           action={formAction}
