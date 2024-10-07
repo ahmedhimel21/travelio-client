@@ -1,9 +1,13 @@
-import { title } from "@/src/components/shared/primitives";
+import AboutUsHero from "@/src/components/modules/aboutUs/AboutUsHero";
+import MissionStatement from "@/src/components/modules/aboutUs/MissionStatement";
+import TeamSection from "@/src/components/modules/aboutUs/TeamSection";
 
 export default function BlogPage() {
   return (
     <div>
-      <h1 className={title()}>Blog</h1>
+      <AboutUsHero />
+      <MissionStatement />
+      <TeamSection />
     </div>
   );
 }
