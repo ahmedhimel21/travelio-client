@@ -2,6 +2,8 @@ import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { cookies } from "next/headers";
 
+import { getUserByToken } from "../helpers/getUser";
+
 import nexiosInstance from "./nexios.config";
 
 export const AuthOptions: NextAuthOptions = {
@@ -28,6 +30,14 @@ export const AuthOptions: NextAuthOptions = {
           if (res?.data?.data?.accessToken || res?.data?.data?.refreshToken) {
             cookies().set("accessToken", res?.data?.data?.accessToken);
             cookies().set("refreshToken", res?.data?.data?.refreshToken);
+            const user = await getUserByToken(res?.data?.data?.accessToken);
+
+            if (user) {
+              await nexiosInstance.put(
+                `/auth/last-login/${user?.data?._id}`,
+                {}
+              );
+            }
 
             return true;
           } else {

@@ -59,7 +59,7 @@ const NewsFeed = ({ user }: { user: any }) => {
 
   return (
     <div className="w-full max-w-4xl">
-      <div className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
+      <div className="flex flex-col items-center justify-center mb-4">
         <PostCreation addNewPost={addNewPost} user={user} />
       </div>
       <InfiniteScroll

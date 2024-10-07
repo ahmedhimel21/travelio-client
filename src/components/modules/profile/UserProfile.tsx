@@ -39,7 +39,7 @@ const UserProfile = ({ user, posts }: { user: any; posts: any }) => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
+    <div className="flex flex-col items-center justify-center">
       <PostCreation user={user} />
       <div className=" text-white p-6 w-full max-w-[950px]">
         <Card className="p-6 rounded-lg">

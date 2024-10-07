@@ -6,6 +6,7 @@ import { cookies } from "next/headers";
 import nexiosInstance from "@/src/config/nexios.config";
 import { uploadImageToIMGBB } from "@/src/helpers/handleImageUpload";
 import { getUser } from "@/src/helpers/getUserInfo";
+import { getUserByToken } from "@/src/helpers/getUser";
 
 export const register = async (pre: any, formData: any): Promise<any> => {
   try {
@@ -46,6 +47,11 @@ export const login = async (pre: any, formData: any): Promise<any> => {
     ) {
       cookies().set("accessToken", response?.data?.data?.accessToken);
       cookies().set("refreshToken", response?.data?.data?.refreshToken);
+      const user = await getUserByToken(response?.data?.data?.accessToken);
+
+      if (user) {
+        await nexiosInstance.put(`/auth/last-login/${user?.data?._id}`, {});
+      }
     }
 
     return response?.data;

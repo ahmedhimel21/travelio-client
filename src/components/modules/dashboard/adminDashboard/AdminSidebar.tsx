@@ -1,13 +1,15 @@
-import { useSidebarContext } from "@/src/app/(dashboardLayout)/layout/layout-context";
 import { Avatar, Tooltip } from "@nextui-org/react";
-import { Car, Cog, Home, User } from "lucide-react";
+import { Car, Home, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { FaPaperPlane } from "react-icons/fa6";
+
 import { Sidebar } from "../shared/sidebar.styles";
 import { SidebarItem } from "../shared/Sidebar-item";
 import { SidebarMenu } from "../shared/Sidebar-menu";
 import { CollapseItems } from "../shared/collapse-items";
 
+import { useSidebarContext } from "@/src/app/(dashboardLayout)/layout/layout-context";
 
 export const AdminSidebarWrapper = () => {
   const pathname = usePathname();
@@ -24,30 +26,30 @@ export const AdminSidebarWrapper = () => {
         <div className={Sidebar.Header()}>
           {" "}
           <Link className="flex" href="/">
-            <Cog />
-            <p className="font-bold text-inherit px-4">APOLLO GEARS</p>
+            <FaPaperPlane />
+            <p className="font-bold text-inherit px-4">Travelio</p>
           </Link>
         </div>
         <div className="flex flex-col justify-between h-full">
           <div className={Sidebar.Body()}>
             <SidebarItem
-              title="Home"
+              href="/admin-dashboard"
               icon={<Home />}
               isActive={pathname === "/admin-dashboard"}
-              href="/admin-dashboard"
+              title="Home"
             />
             <SidebarMenu title="Main Menu">
               <SidebarItem
+                href="/admin-dashboard/cars-management"
+                icon={<Car />}
                 isActive={pathname === "/admin-dashboard/cars-management"}
                 title="cars manage"
-                icon={<Car />}
-                href="/admin-dashboard/cars-management"
               />
               <SidebarItem
+                href="/admin-dashboard/users-management"
+                icon={<User />}
                 isActive={pathname === "/admin-dashboard/users-management"}
                 title="users manage"
-                icon={<User />}
-                href="/admin-dashboard/users-management"
               />
               <CollapseItems
                 icon={<Home />}
@@ -55,63 +57,63 @@ export const AdminSidebarWrapper = () => {
                 title="Balances"
               />
               <SidebarItem
+                icon={<Home />}
                 isActive={pathname === "/customers"}
                 title="Customers"
-                icon={<Home />}
               />
               <SidebarItem
+                icon={<Home />}
                 isActive={pathname === "/products"}
                 title="Products"
-                icon={<Home />}
               />
               <SidebarItem
+                icon={<Home />}
                 isActive={pathname === "/reports"}
                 title="Reports"
-                icon={<Home />}
               />
             </SidebarMenu>
 
             <SidebarMenu title="General">
               <SidebarItem
+                icon={<Home />}
                 isActive={pathname === "/developers"}
                 title="Developers"
-                icon={<Home />}
               />
               <SidebarItem
+                icon={<Home />}
                 isActive={pathname === "/view"}
                 title="View Test Data"
-                icon={<Home />}
               />
               <SidebarItem
+                icon={<Home />}
                 isActive={pathname === "/settings"}
                 title="Settings"
-                icon={<Home />}
               />
             </SidebarMenu>
 
             <SidebarMenu title="Updates">
               <SidebarItem
+                icon={<Home />}
                 isActive={pathname === "/changelog"}
                 title="Changelog"
-                icon={<Home />}
               />
             </SidebarMenu>
           </div>
           <div className={Sidebar.Footer()}>
-            <Tooltip content={"Settings"} color="primary">
+            <Tooltip color="primary" content={"Settings"}>
               <div className="max-w-fit">
                 <Home />
               </div>
             </Tooltip>
-            <Tooltip content={"Adjustments"} color="primary">
+            <Tooltip color="primary" content={"Adjustments"}>
               <div className="max-w-fit">
                 <Home />
               </div>
             </Tooltip>
-            <Tooltip content={"Profile"} color="primary">
+            <Tooltip color="primary" content={"Profile"}>
               <Avatar
-                src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
                 size="sm"
+                src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
               />
             </Tooltip>
           </div>
