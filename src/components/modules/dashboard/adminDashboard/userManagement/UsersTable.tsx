@@ -72,18 +72,6 @@ const UserTable = ({ users }: { users: any }) => {
     },
   ];
 
-  //   const handleUserRoleUpdate = async (id: string) => {
-  //     const toastId = toast.loading("Updating user role...");
-  //     try {
-  //       const res = await updateUserRole(id);
-  //       if (res?.data?.success) {
-  //         toast.success("User role update successfully", { id: toastId });
-  //       }
-  //     } catch (err) {
-  //       toast.error("Something went wrong", { id: toastId });
-  //     }
-  //   };
-
   const onChange: TableProps<DataType>["onChange"] = (
     pagination,
     filters,

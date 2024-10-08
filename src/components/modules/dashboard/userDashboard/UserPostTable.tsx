@@ -14,7 +14,7 @@ interface DataType {
   address: string;
 }
 
-const ContentTable = ({ posts }: { posts: any }) => {
+const UserPostTable = ({ posts }: { posts: any }) => {
   const tableData = posts?.data?.map((post: any) => {
     return {
       key: post?._id,
@@ -58,7 +58,8 @@ const ContentTable = ({ posts }: { posts: any }) => {
       key: "x",
       render: (item) => {
         return (
-          <div>
+          <div className="flex items-center gap-3">
+            <Button color="primary">Edit</Button>
             <Button color="danger">Delete</Button>
           </div>
         );
@@ -89,4 +90,4 @@ const ContentTable = ({ posts }: { posts: any }) => {
   );
 };
 
-export default ContentTable;
+export default UserPostTable;
