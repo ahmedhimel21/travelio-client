@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Button, Input, Spinner } from "@nextui-org/react";
+import debounce from "lodash.debounce";
 
 import NewsFeedPostCard from "./NewsFeedPostCard";
 import PostCreation from "./PostCreation";
@@ -50,6 +51,13 @@ const NewsFeed = ({ user }: { user: any }) => {
       setHasMore(false); // Stop infinite scroll in case of error
     }
   };
+  // Debounced search handler
+  const debouncedSearch = useCallback(
+    debounce((query: string) => {
+      setSearchTerm(query); // Update search term only after debounce delay
+    }, 500), // Adjust the delay (in milliseconds) as needed
+    []
+  );
 
   // Fetch posts on page load and whenever searchTerm, category, or sortBy changes
   useEffect(() => {
@@ -106,7 +114,7 @@ const NewsFeed = ({ user }: { user: any }) => {
           className="rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 p-2"
           placeholder="🔎 Search posts"
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={(e) => debouncedSearch(e.target.value)}
         />
 
         {/* Sorting options */}
