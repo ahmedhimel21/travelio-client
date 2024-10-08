@@ -34,16 +34,43 @@ export const getUserPost = async (id: string) => {
 };
 
 // get all user post
-export const getAllPost = async (page: any) => {
+export const getAllPost = async ({
+  page,
+  limit = 3,
+  category,
+  searchTerm,
+  sortBy,
+}: {
+  page: any;
+  limit: any;
+  category: any;
+  searchTerm: any;
+  sortBy: any;
+}): Promise<any> => {
   try {
-    const response: any = await nexiosInstance.get(
-      `/post?limit=3&page=${page}&sort=-createdAt`,
-      {
-        next: {
-          tags: ["posts"],
-        },
-      }
-    );
+    const params = new URLSearchParams();
+
+    if (page) {
+      params.append("page", page);
+    }
+    if (limit) {
+      params.append("limit", limit);
+    }
+    if (searchTerm) {
+      params.append("searchTerm", searchTerm);
+    }
+    if (category) {
+      params.append("category", category);
+    }
+    if (sortBy) {
+      params.append("sort", sortBy);
+    }
+    const response: any = await nexiosInstance.get(`/post`, {
+      params: params,
+      next: {
+        tags: ["posts"],
+      },
+    });
 
     return response?.data?.data;
   } catch (error) {
