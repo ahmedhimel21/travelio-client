@@ -36,3 +36,13 @@ export const unfollowUser = async (userId: string) => {
     console.log(error);
   }
 };
+
+export const getAllUser = async () => {
+  try {
+    const users: any = await nexiosInstance.get("/users");
+
+    return users?.data;
+  } catch (error) {
+    console.log("error =>", error);
+  }
+};

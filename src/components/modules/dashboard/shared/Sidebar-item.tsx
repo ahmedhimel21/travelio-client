@@ -15,10 +15,11 @@ export const SidebarItem = ({ icon, title, isActive, href = "" }: Props) => {
       // setCollapsed();
     }
   };
+
   return (
     <NextLink
-      href={href}
       className="text-default-900 active:bg-none max-w-full"
+      href={href}
     >
       <div
         className={clsx(

@@ -1,5 +1,5 @@
 import { Avatar, Tooltip } from "@nextui-org/react";
-import { Car, Home, User } from "lucide-react";
+import { Home, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FaPaperPlane } from "react-icons/fa6";
@@ -39,12 +39,6 @@ export const AdminSidebarWrapper = () => {
               title="Home"
             />
             <SidebarMenu title="Main Menu">
-              <SidebarItem
-                href="/admin-dashboard/cars-management"
-                icon={<Car />}
-                isActive={pathname === "/admin-dashboard/cars-management"}
-                title="cars manage"
-              />
               <SidebarItem
                 href="/admin-dashboard/users-management"
                 icon={<User />}
