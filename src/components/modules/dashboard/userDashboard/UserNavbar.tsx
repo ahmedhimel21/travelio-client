@@ -2,8 +2,6 @@ import { Input, Navbar, NavbarContent } from "@nextui-org/react";
 import React from "react";
 import { ChevronLeft, Menu, SearchCheck } from "lucide-react";
 
-import { UserDropdown } from "./user-dropdown";
-
 import { useSidebarContext } from "@/src/app/(dashboardLayout)/layout/layout-context";
 
 interface Props {
@@ -44,9 +42,7 @@ export const NavbarWrapper = ({ children }: Props) => {
         <NavbarContent
           className="w-fit data-[justify=end]:flex-grow-0"
           justify="end"
-        >
-          <UserDropdown />
-        </NavbarContent>
+        />
       </Navbar>
       {children}
     </div>

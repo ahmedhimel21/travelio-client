@@ -92,3 +92,15 @@ export const getPostById = async (postId: string) => {
     console.log(error);
   }
 };
+
+export const getTablePostData = async () => {
+  try {
+    const tablePostData = await nexiosInstance.get(
+      "/post/get-all-posts/tableData"
+    );
+
+    return tablePostData?.data;
+  } catch (error) {
+    console.log("error =>", error);
+  }
+};

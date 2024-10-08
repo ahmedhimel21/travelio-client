@@ -1,5 +1,4 @@
-import { Avatar, Tooltip } from "@nextui-org/react";
-import { Home, User } from "lucide-react";
+import { Home, User, TableOfContentsIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FaPaperPlane } from "react-icons/fa6";
@@ -7,7 +6,6 @@ import { FaPaperPlane } from "react-icons/fa6";
 import { Sidebar } from "../shared/sidebar.styles";
 import { SidebarItem } from "../shared/Sidebar-item";
 import { SidebarMenu } from "../shared/Sidebar-menu";
-import { CollapseItems } from "../shared/collapse-items";
 
 import { useSidebarContext } from "@/src/app/(dashboardLayout)/layout/layout-context";
 
@@ -25,7 +23,7 @@ export const AdminSidebarWrapper = () => {
       >
         <div className={Sidebar.Header()}>
           {" "}
-          <Link className="flex" href="/">
+          <Link className="flex items-center" href="/">
             <FaPaperPlane />
             <p className="font-bold text-inherit px-4">Travelio</p>
           </Link>
@@ -45,71 +43,13 @@ export const AdminSidebarWrapper = () => {
                 isActive={pathname === "/admin-dashboard/users-management"}
                 title="users manage"
               />
-              <CollapseItems
-                icon={<Home />}
-                items={["Banks Accounts", "Credit Cards"]}
-                title="Balances"
-              />
               <SidebarItem
-                icon={<Home />}
-                isActive={pathname === "/customers"}
-                title="Customers"
-              />
-              <SidebarItem
-                icon={<Home />}
-                isActive={pathname === "/products"}
-                title="Products"
-              />
-              <SidebarItem
-                icon={<Home />}
-                isActive={pathname === "/reports"}
-                title="Reports"
+                href="/admin-dashboard/content-management"
+                icon={<TableOfContentsIcon />}
+                isActive={pathname === "/admin-dashboard/content-management"}
+                title="Content Manage"
               />
             </SidebarMenu>
-
-            <SidebarMenu title="General">
-              <SidebarItem
-                icon={<Home />}
-                isActive={pathname === "/developers"}
-                title="Developers"
-              />
-              <SidebarItem
-                icon={<Home />}
-                isActive={pathname === "/view"}
-                title="View Test Data"
-              />
-              <SidebarItem
-                icon={<Home />}
-                isActive={pathname === "/settings"}
-                title="Settings"
-              />
-            </SidebarMenu>
-
-            <SidebarMenu title="Updates">
-              <SidebarItem
-                icon={<Home />}
-                isActive={pathname === "/changelog"}
-                title="Changelog"
-              />
-            </SidebarMenu>
-          </div>
-          <div className={Sidebar.Footer()}>
-            <Tooltip color="primary" content={"Settings"}>
-              <div className="max-w-fit">
-                <Home />
-              </div>
-            </Tooltip>
-            <Tooltip color="primary" content={"Adjustments"}>
-              <div className="max-w-fit">
-                <Home />
-              </div>
-            </Tooltip>
-            <Tooltip color="primary" content={"Profile"}>
-              <Avatar
-                size="sm"
-                src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
-              />
-            </Tooltip>
           </div>
         </div>
       </div>

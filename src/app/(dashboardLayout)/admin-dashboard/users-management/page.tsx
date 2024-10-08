@@ -1,6 +1,6 @@
 import React from "react";
 
-import UserTable from "../userManagement/UsersTable";
+import UserTable from "../../../../components/modules/dashboard/adminDashboard/userManagement/UsersTable";
 
 import { getAllUser } from "@/src/actions/user/user.action";
 

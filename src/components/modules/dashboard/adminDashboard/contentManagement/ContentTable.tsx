@@ -14,42 +14,44 @@ interface DataType {
   address: string;
 }
 
-const UserTable = ({ users }: { users: any }) => {
-  const tableData = users?.data?.map(
-    ({
-      _id,
-      name,
-      email,
-      role,
-    }: {
-      _id: string;
-      name: string;
-      email: string;
-      role: string;
-    }) => ({
-      key: _id,
-      name,
-      email,
-      role,
-    })
-  );
+const ContentTable = ({ posts }: { posts: any }) => {
+  const tableData = posts?.data?.map((post: any) => {
+    return {
+      key: post?._id,
+      author: post?.author?.name,
+      title: post?.title,
+      category: post?.category,
+      upVotes: post?.upVotes,
+      premium: post?.premium ? "Premium" : "Free",
+    };
+  });
 
   const columns: TableColumnsType<DataType> = [
     {
-      title: "Name",
+      title: "Author",
       key: "name",
-      dataIndex: "name",
+      dataIndex: "author",
       showSorterTooltip: { target: "full-header" },
     },
     {
-      title: "Email",
-      key: "email",
-      dataIndex: "email",
+      title: "Title",
+      key: "title",
+      dataIndex: "title",
     },
     {
-      title: "Role",
-      key: "role",
-      dataIndex: "role",
+      title: "Category",
+      key: "category",
+      dataIndex: "category",
+    },
+    {
+      title: "UpVotes",
+      key: "upVotes",
+      dataIndex: "upVotes",
+    },
+    {
+      title: "Type",
+      key: "type",
+      dataIndex: "premium",
     },
     {
       title: "Action",
@@ -57,14 +59,7 @@ const UserTable = ({ users }: { users: any }) => {
       render: (item) => {
         return (
           <div>
-            <Button
-              className={`${
-                item?.role === "admin" ? "opacity-40" : "opacity-100"
-              }`}
-              color="primary"
-            >
-              Make Admin
-            </Button>
+            <Button color="danger">Delete</Button>
           </div>
         );
       },
@@ -95,15 +90,15 @@ const UserTable = ({ users }: { users: any }) => {
   return (
     <div>
       <Table
+        columns={columns}
         dataSource={tableData}
+        loading={posts?.data?.length === 0}
+        pagination={false}
         showSorterTooltip={{ target: "sorter-icon" }}
         onChange={onChange}
-        pagination={false}
-        loading={!users?.data?.length}
-        columns={columns}
       />
     </div>
   );
 };
 
-export default UserTable;
+export default ContentTable;
