@@ -119,12 +119,15 @@ const CreatePostForm = ({
             </Form.Item>
           )}
         />
-        <Checkbox
-          defaultSelected={false}
-          onChange={(e) => setIsPremium(e.target.checked)}
-        >
-          Premium
-        </Checkbox>
+        {user?.data?.verified && (
+          <Checkbox
+            disabled={user?.data?.verified}
+            defaultSelected={false}
+            onChange={(e) => setIsPremium(e.target.checked)}
+          >
+            Premium
+          </Checkbox>
+        )}
         <br /> <br />
         <Toaster />
         <button
