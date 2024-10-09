@@ -226,6 +226,7 @@ const NewsFeedPostCard = ({
               }`}
               onClick={() => handleDownVote(post?._id)}
             />
+            {/* <span>{post?.downVotes}</span> */}
           </div>
           <div>
             <Link href={`/post/${post?._id}`}>Read more</Link>

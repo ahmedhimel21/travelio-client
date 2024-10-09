@@ -106,6 +106,7 @@ export const downVote = async (id: string) => {
   }
 };
 
+// get user by Id
 export const getPostById = async (postId: string) => {
   try {
     const result = await nexiosInstance.get(`/post/getPost/${postId}`, {
@@ -120,13 +121,45 @@ export const getPostById = async (postId: string) => {
   }
 };
 
+// get table post
 export const getTablePostData = async () => {
   try {
     const tablePostData = await nexiosInstance.get(
-      "/post/get-all-posts/tableData"
+      "/post/get-all-posts/tableData",
+      {
+        next: {
+          tags: ["posts"],
+        },
+      }
     );
 
     return tablePostData?.data;
+  } catch (error) {
+    console.log("error =>", error);
+  }
+};
+
+// delete post
+export const deletePost = async (id: string) => {
+  try {
+    const res = await nexiosInstance.delete(`/post/${id}`);
+
+    revalidateTag("posts");
+
+    return res?.data;
+  } catch (error) {
+    console.log("error =>", error);
+  }
+};
+
+// update post
+export const updatePost = async ({ key, body }: { key: string; body: any }) => {
+  try {
+    const res = await nexiosInstance.put(`/post/update/${key}`, body);
+
+    revalidateTag("posts");
+
+    return res?.data;
   } catch (error) {
     console.log("error =>", error);
   }

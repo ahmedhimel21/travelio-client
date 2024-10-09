@@ -14,12 +14,13 @@ import { link as linkStyles } from "@nextui-org/theme";
 import NextLink from "next/link";
 import clsx from "clsx";
 import { cookies } from "next/headers";
+import { FaPaperPlane } from "react-icons/fa6";
 
 import DropDownProfile from "./DropDownProfile";
 
 import { siteConfig } from "@/src/config/site";
 import { ThemeSwitch } from "@/src/components/shared/theme-switch";
-import { SearchIcon, Logo } from "@/src/components/shared/icons";
+import { SearchIcon } from "@/src/components/shared/icons";
 import { getUser } from "@/src/helpers/getUserInfo";
 
 export const Navbar = async () => {
@@ -54,8 +55,8 @@ export const Navbar = async () => {
     <NextUINavbar maxWidth="xl" position="sticky">
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="gap-3 max-w-fit">
-          <NextLink className="flex justify-start items-center gap-1" href="/">
-            <Logo />
+          <NextLink className="flex justify-start items-center gap-3" href="/">
+            <FaPaperPlane />
             <p className="font-bold text-inherit">Travelio</p>
           </NextLink>
         </NavbarBrand>

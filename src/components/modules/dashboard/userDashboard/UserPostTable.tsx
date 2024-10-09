@@ -3,9 +3,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { TableColumnsType, TableProps } from "antd";
 
-import React from "react";
-import { Table } from "antd";
+import React, { useState } from "react";
+import { message, Modal, Popconfirm, Table } from "antd";
 import { Button } from "@nextui-org/button";
+import toast from "react-hot-toast";
+import { FieldValues } from "react-hook-form";
+
+import { deletePost, updatePost } from "@/src/actions/post/post.action";
+import ReuseableForm from "@/src/forms/ReusableForm";
+import ReuseableInput from "@/src/forms/ReusableInput";
 
 interface DataType {
   key: React.Key;
@@ -15,6 +21,18 @@ interface DataType {
 }
 
 const UserPostTable = ({ posts }: { posts: any }) => {
+  // delete confirmation functionalities
+  const confirmDelete = async (_id: string) => {
+    const res: any = await deletePost(_id);
+
+    if (res?.success) {
+      message.success("Post deleted successfully");
+    }
+  };
+
+  const cancelDelete = () => {
+    message.info("post deletion canceled");
+  };
   const tableData = posts?.data?.map((post: any) => {
     return {
       key: post?._id,
@@ -22,6 +40,7 @@ const UserPostTable = ({ posts }: { posts: any }) => {
       title: post?.title,
       category: post?.category,
       upVotes: post?.upVotes,
+      content: post?.content,
       premium: post?.premium ? "Premium" : "Free",
     };
   });
@@ -37,6 +56,11 @@ const UserPostTable = ({ posts }: { posts: any }) => {
       title: "Title",
       key: "title",
       dataIndex: "title",
+    },
+    {
+      title: "Content",
+      key: "content",
+      dataIndex: "content",
     },
     {
       title: "Category",
@@ -59,8 +83,17 @@ const UserPostTable = ({ posts }: { posts: any }) => {
       render: (item) => {
         return (
           <div className="flex items-center gap-3">
-            <Button color="primary">Edit</Button>
-            <Button color="danger">Delete</Button>
+            <UpdatePostModal data={item} />
+
+            <Popconfirm
+              cancelText="No"
+              okText="Yes"
+              title="Are you sure to delete this service?"
+              onCancel={cancelDelete}
+              onConfirm={() => confirmDelete(item?.key)}
+            >
+              <Button color="danger">Delete</Button>
+            </Popconfirm>
           </div>
         );
       },
@@ -81,12 +114,84 @@ const UserPostTable = ({ posts }: { posts: any }) => {
       <Table
         columns={columns}
         dataSource={tableData}
-        loading={posts?.data?.length === 0}
         pagination={false}
         showSorterTooltip={{ target: "sorter-icon" }}
         onChange={onChange}
       />
     </div>
+  );
+};
+
+//update modal
+const UpdatePostModal = ({
+  data,
+}: {
+  data: {
+    title: string;
+    content: number;
+    key: string;
+  };
+}) => {
+  const { key, title, content } = data;
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
+  const onSubmit = async (value: FieldValues) => {
+    const toastId = toast.loading("Updating...");
+    const body = {
+      title: value?.title,
+      content: value?.content,
+    };
+
+    try {
+      const res: any = await updatePost({ key, body });
+
+      if (res?.success) {
+        setIsModalOpen(false);
+        toast.success("Updated Successfully", { id: toastId });
+      }
+    } catch (err) {
+      toast.error("Something went wrong", { id: toastId });
+    }
+  };
+
+  return (
+    <>
+      <Button color="primary" onClick={showModal}>
+        Update
+      </Button>
+      <Modal
+        footer={null}
+        open={isModalOpen}
+        title="Service Update"
+        onCancel={handleCancel}
+      >
+        <ReuseableForm onSubmit={onSubmit}>
+          <ReuseableInput
+            initialValue={title}
+            label="Title"
+            name="title"
+            type="text"
+          />
+          <ReuseableInput
+            initialValue={content}
+            label="Content"
+            name="content"
+            type="text"
+          />
+
+          <Button color="primary" type="submit">
+            Update
+          </Button>
+        </ReuseableForm>
+      </Modal>
+    </>
   );
 };
 

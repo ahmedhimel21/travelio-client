@@ -39,9 +39,25 @@ export const unfollowUser = async (userId: string) => {
 
 export const getAllUser = async () => {
   try {
-    const users: any = await nexiosInstance.get("/users");
+    const users: any = await nexiosInstance.get("/users", {
+      next: {
+        tags: ["users"],
+      },
+    });
 
     return users?.data;
+  } catch (error) {
+    console.log("error =>", error);
+  }
+};
+
+export const updateUserRole = async (id: string) => {
+  try {
+    const result = await nexiosInstance.put(`/users/update-role/${id}`, {});
+
+    revalidateTag("users");
+
+    return result?.data;
   } catch (error) {
     console.log("error =>", error);
   }

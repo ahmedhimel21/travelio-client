@@ -38,22 +38,22 @@ const ChangePasswordForm = ({ onClose }: any) => {
         <form ref={ref} action={formAction}>
           <div className="mb-4">
             <Input
-              required
               className="w-full"
               label="Current password"
               name="oldPassword"
               placeholder="Enter current password"
+              required={true}
               type="password"
             />
           </div>
 
           <div className="mb-4">
             <Input
-              required
               className="w-full"
               label="New password"
               name="newPassword"
               placeholder="Enter new password"
+              required={true}
               type="password"
             />
           </div>

@@ -6,6 +6,9 @@ import type { TableColumnsType, TableProps } from "antd";
 import React from "react";
 import { Table } from "antd";
 import { Button } from "@nextui-org/button";
+import toast, { Toaster } from "react-hot-toast";
+
+import { updateUserRole } from "@/src/actions/user/user.action";
 
 interface DataType {
   key: React.Key;
@@ -63,6 +66,7 @@ const UserTable = ({ users }: { users: any }) => {
               }`}
               color="primary"
               disabled={item?.role === "admin"}
+              onClick={() => handleUserRoleUpdate(item?.key)}
             >
               Make Admin
             </Button>
@@ -71,6 +75,20 @@ const UserTable = ({ users }: { users: any }) => {
       },
     },
   ];
+
+  const handleUserRoleUpdate = async (id: string) => {
+    const toastId = toast.loading("Updating user role...");
+
+    try {
+      const res: any = await updateUserRole(id);
+
+      if (res?.success) {
+        toast.success("User role update successfully", { id: toastId });
+      }
+    } catch (err) {
+      toast.error("Something went wrong", { id: toastId });
+    }
+  };
 
   const onChange: TableProps<DataType>["onChange"] = (
     pagination,
@@ -91,6 +109,7 @@ const UserTable = ({ users }: { users: any }) => {
         showSorterTooltip={{ target: "sorter-icon" }}
         onChange={onChange}
       />
+      <Toaster />
     </div>
   );
 };
