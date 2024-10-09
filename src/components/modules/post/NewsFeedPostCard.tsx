@@ -34,7 +34,6 @@ const NewsFeedPostCard = ({
       (voter: any) => voter.user === user?.data?._id
     );
 
-    // console.log(existingVote);
     if (existingVote) {
       setUserVote(existingVote.vote);
     }

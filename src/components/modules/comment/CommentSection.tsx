@@ -39,8 +39,6 @@ const CommentSection = ({
     };
     const postComment: any = await createComment(commentData);
 
-    console.log(postComment);
-
     if (postComment && postComment?.success) {
       // Add the newly created comment to the existing comments state
       setComments((prevComments: any) => [...prevComments, postComment.data]);

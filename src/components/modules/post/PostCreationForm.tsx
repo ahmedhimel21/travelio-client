@@ -25,7 +25,6 @@ const CreatePostForm = ({
   user: any;
   addNewPost?: any;
 }) => {
-  console.log(addNewPost);
   const [content, setContent] = useState("");
   const [premium, setIsPremium] = useState(false);
 

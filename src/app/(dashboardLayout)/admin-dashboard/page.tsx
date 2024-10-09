@@ -61,13 +61,11 @@ const AdminDashboard = () => {
         if (payments?.success) {
           setPayments(payments);
         }
-        // console.log(payments);
         const dashboardData: any = await getDashboardData();
 
         if (dashboardData?.success) {
           setDashboardData(dashboardData);
         }
-        // console.log(dashboardData);
       } catch (error) {
         console.error("Error fetching payment stats:", error);
       }
