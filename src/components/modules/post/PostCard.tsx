@@ -1,6 +1,6 @@
 "use client";
-import { Avatar, Button, Card, Divider } from "@nextui-org/react";
-import { useState } from "react";
+import { Avatar, Button, Card, Divider, Link } from "@nextui-org/react";
+import { useRef, useState } from "react";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa6";
 import { RiUserFollowFill, RiVerifiedBadgeLine } from "react-icons/ri";
 
@@ -9,6 +9,11 @@ import CommentModal from "../comment/CommentModal";
 import { dateFormatter } from "@/src/helpers/dateFormatter";
 import { followUser, unfollowUser } from "@/src/actions/user/user.action";
 import { downVote, upVote } from "@/src/actions/post/post.action";
+import { useReactToPrint } from "react-to-print";
+
+//generate pdf
+const contentRef = useRef<HTMLDivElement>(null);
+const reactToPrintFn = useReactToPrint({ contentRef });
 
 const PostCard = ({ post, user }: { post: any; user: any }) => {
   const [userVote, setUserVote] = useState<"upvote" | "downvote" | null>(null);
@@ -49,6 +54,7 @@ const PostCard = ({ post, user }: { post: any; user: any }) => {
   return (
     <div className="w-full max-w-4xl mx-auto gap-4 py-8 md:py-10">
       <Card
+        ref={contentRef}
         key={"index"}
         className=" p-4 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900"
       >
@@ -123,6 +129,11 @@ const PostCard = ({ post, user }: { post: any; user: any }) => {
               }`}
               onClick={() => handleDownVote(post?.data?._id)}
             />
+          </div>
+          <div>
+            <Link className="cursor-pointer" onClick={() => reactToPrintFn()}>
+              Print
+            </Link>
           </div>
           <div>
             <CommentModal post={post?.data} user={user} />

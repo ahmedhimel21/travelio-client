@@ -25,9 +25,6 @@ const NewsFeedPostCard = ({
   const [commentCount, setCommentCount] = useState(0);
   // date formatter fn
   const formattedDate = dateFormatter(post?.createdAt);
-  //generate pdf
-  const contentRef = useRef<HTMLDivElement>(null);
-  const reactToPrintFn = useReactToPrint({ contentRef });
 
   useEffect(() => {
     const existingVote = post.voters.find(
@@ -148,7 +145,6 @@ const NewsFeedPostCard = ({
     <div className="w-full max-w-4xl">
       <Card
         key={"index"}
-        ref={contentRef}
         className="p-6 mb-4 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 w-full"
       >
         <div className="mb-3 flex justify-between items-center">
@@ -229,11 +225,6 @@ const NewsFeedPostCard = ({
           </div>
           <div>
             <Link href={`/post/${post?._id}`}>Read more</Link>
-          </div>
-          <div>
-            <Link className="cursor-pointer" onClick={() => reactToPrintFn()}>
-              Print
-            </Link>
           </div>
           <div>
             <CommentModal
