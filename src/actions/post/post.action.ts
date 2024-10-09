@@ -135,7 +135,7 @@ export const getTablePostData = async () => {
 
     return tablePostData?.data;
   } catch (error) {
-    console.log("error =>", error);
+    // console.log("error =>", error);
   }
 };
 
