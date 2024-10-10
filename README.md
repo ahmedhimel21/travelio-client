@@ -1,6 +1,22 @@
-# Next.js & NextUI Template
+# Travelio - Frontend
 
-This is a template for creating applications using Next.js 14 (app directory) and NextUI (v2).
+[Live URL](https://travelio-client-dusky.vercel.app)
+
+## Introduction
+
+Travelio is a travel-centric platform where users can share travel stories, tips, and guides, interact with other travelers, and explore premium content. The frontend is built with modern web technologies to ensure a responsive, engaging, and performant user experience.
+
+## Features
+
+- Authentication: JWT-based authentication with NextAuth.
+- Travel Posts: Create and share travel experiences using a rich text editor.
+- User Interactions: Upvote, downvote, comment on posts, and follow other travelers.
+- Infinite Scrolling: Seamless browsing of posts with infinite scroll.
+- Search and Filter: Find posts by categories or users with optimized search functionality.
+- PDF Download: Download posts as PDFs for offline access.
+- Profile Management: Update user profiles, including uploading profile pictures.
+- Dark Mode: Toggle between light and dark themes.
+- Responsive Design: Fully responsive UI for mobile and desktop use.
 
 [Try it on CodeSandbox](https://githubbox.com/nextui-org/next-app-template)
 
@@ -13,40 +29,46 @@ This is a template for creating applications using Next.js 14 (app directory) an
 - [TypeScript](https://www.typescriptlang.org/)
 - [Framer Motion](https://www.framer.com/motion/)
 - [next-themes](https://github.com/pacocoursey/next-themes)
+- [Ant Design](https://ant.design)
+- [React Hook Form](https://react-hook-form.com)
+- [Zod](https://zod.dev)
+- [nexios-http](https://www.npmjs.com/package/nexios-http)
+- [JWT](https://jwt.io/)
+- [React Hot Toast](https://react-hot-toast.com/)
 
-## How to Use
+## Installation
 
-### Use the template with create-next-app
+### Prerequisites
 
-To create a new project based on this template using `create-next-app`, run the following command:
+- Node.js (v14 or higher)
+- npm or yarn
 
-```bash
-npx create-next-app -e https://github.com/nextui-org/next-app-template
-```
+### Steps
 
-### Install dependencies
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/ahmedhimel21/travelio-client
+   cd your-repo-name/frontend
+   ```
+2. Install dependencies::
+   ```bash
+   npm install
+   or
+   yarn install
+   ```
+3. Start the development server:
 
-You can use one of them `npm`, `yarn`, `pnpm`, `bun`, Example using `npm`:
+   ```bash
+   npm run dev
+   or
+   yarn run dev
+   The app should now be running on http://localhost:3000.
+   ```
 
-```bash
-npm install
-```
+   ### APIs
 
-### Run the development server
-
-```bash
-npm run dev
-```
-
-### Setup pnpm (optional)
-
-If you are using `pnpm`, you need to add the following code to your `.npmrc` file:
-
-```bash
-public-hoist-pattern[]=*@nextui-org/*
-```
-
-After modifying the `.npmrc` file, you need to run `pnpm install` again to ensure that the dependencies are installed correctly.
+This frontend communicates with backend APIs for handling user authentication, posts, and more. The backend APIs handle the business logic and data storage using Node.js and MongoDB. Refer to the backend repository for detailed API documentation.
+[Backend Repository](https://github.com/ahmedhimel21/travelio-server)
 
 ## License
 
