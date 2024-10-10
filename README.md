@@ -18,8 +18,6 @@ Travelio is a travel-centric platform where users can share travel stories, tips
 - Dark Mode: Toggle between light and dark themes.
 - Responsive Design: Fully responsive UI for mobile and desktop use.
 
-[Try it on CodeSandbox](https://githubbox.com/nextui-org/next-app-template)
-
 ## Technologies Used
 
 - [Next.js 14](https://nextjs.org/docs/getting-started)
@@ -65,7 +63,7 @@ Travelio is a travel-centric platform where users can share travel stories, tips
    The app should now be running on http://localhost:3000.
    ```
 
-   ### APIs
+### APIs
 
 This frontend communicates with backend APIs for handling user authentication, posts, and more. The backend APIs handle the business logic and data storage using Node.js and MongoDB. Refer to the backend repository for detailed API documentation.
 [Backend Repository](https://github.com/ahmedhimel21/travelio-server)
