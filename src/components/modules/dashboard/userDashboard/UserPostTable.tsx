@@ -88,7 +88,7 @@ const UserPostTable = ({ posts }: { posts: any }) => {
             <Popconfirm
               cancelText="No"
               okText="Yes"
-              title="Are you sure to delete this service?"
+              title="Are you sure to delete this post?"
               onCancel={cancelDelete}
               onConfirm={() => confirmDelete(item?.key)}
             >
@@ -169,7 +169,7 @@ const UpdatePostModal = ({
       <Modal
         footer={null}
         open={isModalOpen}
-        title="Service Update"
+        title="Post Update"
         onCancel={handleCancel}
       >
         <ReuseableForm onSubmit={onSubmit}>

@@ -11,10 +11,6 @@ import { followUser, unfollowUser } from "@/src/actions/user/user.action";
 import { downVote, upVote } from "@/src/actions/post/post.action";
 import { useReactToPrint } from "react-to-print";
 
-//generate pdf
-const contentRef = useRef<HTMLDivElement>(null);
-const reactToPrintFn = useReactToPrint({ contentRef });
-
 const PostCard = ({ post, user }: { post: any; user: any }) => {
   const [userVote, setUserVote] = useState<"upvote" | "downvote" | null>(null);
   const [isFollowing, setIsFollowing] = useState(
@@ -22,7 +18,9 @@ const PostCard = ({ post, user }: { post: any; user: any }) => {
   );
   // date formatter fn
   const formattedDate = dateFormatter(post?.data?.createdAt);
-
+  //generate pdf
+  const contentRef = useRef<HTMLDivElement>(null);
+  const reactToPrintFn = useReactToPrint({ contentRef });
   // handle follow
   const handleFollow = async (userId: string) => {
     if (isFollowing) {
