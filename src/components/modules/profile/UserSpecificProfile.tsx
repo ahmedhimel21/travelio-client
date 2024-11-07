@@ -4,17 +4,28 @@ import { Button } from "@nextui-org/button";
 import { Card } from "@nextui-org/card";
 import { Divider } from "@nextui-org/react";
 import { FaLocationArrow, FaCalendar } from "react-icons/fa6";
-import { GoVerified } from "react-icons/go";
-import toast from "react-hot-toast";
 
-import PostCreation from "../post/PostCreation";
 import NewsFeedPostCard from "../post/NewsFeedPostCard";
+import { useState } from "react";
+import { followUser, unfollowUser } from "@/src/actions/user/user.action";
+import { RiUserFollowFill } from "react-icons/ri";
 
-import UpdateUserProfile from "./UpdateUserProfile";
+const UserSpecificProfile = ({
+  user,
+  posts,
+  currentUser,
+}: {
+  user: any;
+  posts: any;
+  currentUser: any;
+}) => {
+  const [isFollowing, setIsFollowing] = useState(
+    currentUser?.data?.following.includes(user?.data?._id)
+  );
+  const [followerCount, setFollowerCount] = useState(
+    user?.data?.followers.length
+  );
 
-import { verifyProfile } from "@/src/actions/profile/profile.action";
-
-const UserProfile = ({ user, posts }: { user: any; posts: any }) => {
   const dateStr = user?.data?.createdAt;
   const date = new Date(dateStr);
 
@@ -22,25 +33,25 @@ const UserProfile = ({ user, posts }: { user: any; posts: any }) => {
   const options = { year: "numeric", month: "long" };
   const formattedDate = date.toLocaleDateString("en-US", options as any);
 
-  const handleVerifyProfile = async () => {
-    const verifyData = {
-      _id: user?.data?._id,
-      name: user?.data?.name,
-      email: user?.data?.email,
-      amount: 2000,
-    };
-    const data: any = await verifyProfile(verifyData);
-
-    if (data?.data?.result) {
-      toast.success("Please make your payment");
-      window.open(data?.data?.payment_url, "_blank");
-      window.location.href = "/";
+  // Handle follow/unfollow functionality
+  const handleFollow = async () => {
+    try {
+      if (isFollowing) {
+        await unfollowUser(user?.data?._id);
+        setIsFollowing(false);
+        setFollowerCount(followerCount - 1); // Update follower count
+      } else {
+        await followUser(user?.data?._id);
+        setIsFollowing(true);
+        setFollowerCount(followerCount + 1); // Update follower count
+      }
+    } catch (error) {
+      console.error("Error updating follow status", error);
     }
   };
 
   return (
     <div className="flex flex-col items-center justify-center w-full">
-      <PostCreation user={user} />
       <div className=" text-white w-full mt-5">
         <Card className="p-6 rounded-lg" fullWidth={true}>
           <div className="relative">
@@ -54,31 +65,20 @@ const UserProfile = ({ user, posts }: { user: any; posts: any }) => {
 
           <div className="pt-14 pl-6">
             {/* User Info */}
-            <div>
-              <h2 className="text-xl font-semibold">
-                @{user?.data?.name}
-                <span className="ml-3">
-                  {user && user?.data?.verified ? (
-                    <Button
-                      disabled
-                      color="primary"
-                      size="md"
-                      variant="bordered"
-                    >
-                      <GoVerified color="primary" /> Verified
-                    </Button>
-                  ) : (
-                    <Button
-                      color="primary"
-                      size="md"
-                      variant="bordered"
-                      onClick={handleVerifyProfile}
-                    >
-                      <GoVerified color="primary" /> Get Verified
-                    </Button>
-                  )}
-                </span>
-              </h2>
+            <div className="flex justify-between items-center">
+              <h2 className="text-xl font-semibold">@{user?.data?.name}</h2>
+              {/* Follow/Unfollow Button */}
+              {currentUser?.data?._id !== user?.data?._id && (
+                <Button
+                  color="primary"
+                  size="md"
+                  variant="bordered"
+                  onClick={handleFollow}
+                >
+                  <RiUserFollowFill color="primary" />{" "}
+                  {isFollowing ? "Following" : "Follow"}
+                </Button>
+              )}
             </div>
 
             {/* Location and Joined Date */}
@@ -105,14 +105,13 @@ const UserProfile = ({ user, posts }: { user: any; posts: any }) => {
                   <span className="text-gray-400">Follower</span>
                 </p>
               </div>
-              <UpdateUserProfile user={user} />
             </div>
           </div>
           <Divider className="mt-8" />
           <div className="mt-8">
             {posts &&
               posts?.data?.map((post: any, index: number) => (
-                <NewsFeedPostCard key={index} post={post} user={user} />
+                <NewsFeedPostCard key={index} post={post} user={currentUser} />
               ))}
           </div>
         </Card>
@@ -121,4 +120,4 @@ const UserProfile = ({ user, posts }: { user: any; posts: any }) => {
   );
 };
 
-export default UserProfile;
+export default UserSpecificProfile;

@@ -50,7 +50,7 @@ const PostCard = ({ post, user }: { post: any; user: any }) => {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto gap-4 py-8 md:py-10">
+    <div className="w-full max-w-4xl mx-auto gap-4 py-4 md:py-4">
       <Card
         ref={contentRef}
         key={"index"}

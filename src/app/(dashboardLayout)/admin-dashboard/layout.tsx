@@ -1,9 +1,17 @@
+import { cookies } from "next/headers";
 import AdminLayout from "./layout/adminDashboardLayout";
+import { getUser } from "@/src/helpers/getUserInfo";
 
-const AdminDashboardLayout = ({ children }: { children: React.ReactNode }) => {
+const AdminDashboardLayout = async ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
+  const token = cookies().get("accessToken");
+  const user = await getUser(token as { value: string });
   return (
     <div>
-      <AdminLayout>{children}</AdminLayout>
+      <AdminLayout user={user}>{children}</AdminLayout>
     </div>
   );
 };

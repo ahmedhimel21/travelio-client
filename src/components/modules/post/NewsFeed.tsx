@@ -92,44 +92,59 @@ const NewsFeed = ({ user }: { user: any }) => {
   };
 
   return (
-    <div className="w-full max-w-4xl">
-      <div className="flex flex-col items-center justify-center mb-4">
+    <div className="w-full">
+      <div className="flex flex-col items-center justify-center mb-6">
         <PostCreation addNewPost={addNewPost} user={user} />
       </div>
       {/* Filters, search, and sorting */}
-      <div className="flex flex-col md:flex-row justify-between items-center mb-4 gap-4 p-4 border rounded-lg shadow-md bg-white">
-        {/* Category filter */}
-        <select
-          className="p-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          onChange={(e) => setCategory(e.target.value)}
-        >
-          <option value="">All Categories</option>
-          <option value="Adventure">Adventure</option>
-          <option value="Business Travel">Business Travel</option>
-          <option value="Exploration">Exploration</option>
-        </select>
+      <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4 p-6 border border-gray-200 rounded-lg shadow-lg bg-white">
+        {/* Category Filter */}
+        <div className="relative w-full md:w-auto">
+          <select
+            className="appearance-none w-full md:w-40 p-3 h-12 rounded-md border border-gray-300 bg-gray-50 text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 cursor-pointer"
+            onChange={(e) => setCategory(e.target.value)}
+          >
+            <option value="">All Categories</option>
+            <option value="Adventure">Adventure</option>
+            <option value="Business Travel">Business Travel</option>
+            <option value="Exploration">Exploration</option>
+          </select>
+          <span className="absolute inset-y-0 right-3 flex items-center pointer-events-none text-gray-400">
+            ▼
+          </span>
+        </div>
 
-        {/* Search input */}
-        <Input
-          className="rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 p-2"
-          placeholder="🔎 Search posts"
-          value={searchTerm}
-          onChange={(e) => debouncedSearch(e.target.value)}
-        />
+        {/* Search Input */}
+        <div className="relative w-full md:w-1/3">
+          <Input
+            className="w-full h-12 rounded-md border border-gray-300 bg-gray-50 text-gray-700 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 placeholder-gray-400"
+            placeholder="Search posts"
+            value={searchTerm}
+            onChange={(e) => debouncedSearch(e.target.value)}
+          />
+          <span className="absolute inset-y-0 left-3 flex items-center text-gray-400">
+            🔍
+          </span>
+        </div>
 
-        {/* Sorting options */}
-        <select
-          className="p-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          onChange={(e) => setSortBy(e.target.value)}
-        >
-          <option value="">Sort By</option>
-          <option value="-upVotes">Popular</option>
-          <option value="-createdAt">Newest</option>
-        </select>
+        {/* Sorting Options */}
+        <div className="relative w-full md:w-auto">
+          <select
+            className="appearance-none w-full md:w-40 p-3 h-12 rounded-md border border-gray-300 bg-gray-50 text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 cursor-pointer"
+            onChange={(e) => setSortBy(e.target.value)}
+          >
+            <option value="">Sort By</option>
+            <option value="-upVotes">Popular</option>
+            <option value="-createdAt">Newest</option>
+          </select>
+          <span className="absolute inset-y-0 right-3 flex items-center pointer-events-none text-gray-400">
+            ▼
+          </span>
+        </div>
 
-        {/* Reset button */}
+        {/* Reset Button */}
         <Button
-          className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md transition duration-300"
+          className="w-full md:w-auto h-12 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-md transition duration-200 shadow-md"
           color="primary"
           onClick={resetFilters}
         >

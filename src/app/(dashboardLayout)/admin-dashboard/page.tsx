@@ -85,80 +85,73 @@ const AdminDashboard = () => {
           (monthData: any) => monthData.totalAmount
         ),
         borderColor: "rgba(75,192,192,1)",
-        fill: false,
+        backgroundColor: "rgba(75,192,192,0.1)",
+        fill: true,
+        borderWidth: 2,
+        tension: 0.3,
       },
     ],
   };
 
   return (
-    <div className="w-full max w-5xl mx-auto">
-      <div className="flex flex-wrap gap-4">
-        <div className="w-full sm:w-1/2 lg:w-1/4">
-          <Card>
-            <div className="p-4">
-              <div className="flex items-center">
-                <FaUsers className="text-4xl mr-4" />
-                <div>
-                  <h3 className="text-xl font-bold">Active Users</h3>
-                  <p className="text-lg">
-                    {dashboardData?.data?.activeUsersCount}
-                  </p>
-                </div>
+    <div className="w-full max-w-5xl mx-auto px-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {[
+          {
+            title: "Active Users",
+            value: dashboardData?.data?.activeUsersCount,
+            icon: <FaUsers />,
+          },
+          {
+            title: "Total Posts",
+            value: dashboardData?.data?.monthlyPosts,
+            icon: <FaFileAlt />,
+          },
+          {
+            title: "Total Payments",
+            value: dashboardData?.data?.totalPayments[0].totalAmount,
+            icon: <FaMoneyBillWave />,
+          },
+          {
+            title: "Monthly Activity",
+            value: dashboardData?.data?.monthlyActivity,
+            icon: <FaChartLine />,
+          },
+        ].map((item, index) => (
+          <Card
+            key={index}
+            className="hover:shadow-lg transition-all duration-200"
+          >
+            <div className="p-4 flex items-center gap-4">
+              <div className="text-4xl text-blue-500">{item.icon}</div>
+              <div>
+                <h3 className="text-xl font-bold">{item.title}</h3>
+                <p className="text-lg">{item.value}</p>
               </div>
             </div>
           </Card>
-        </div>
-
-        <div className="w-full sm:w-1/2 lg:w-1/4">
-          <Card>
-            <div className="p-4">
-              <div className="flex items-center">
-                <FaFileAlt className="text-4xl mr-4" />
-                <div>
-                  <h3 className="text-xl font-bold">Total Posts</h3>
-                  <p className="text-lg">{dashboardData?.data?.monthlyPosts}</p>
-                </div>
-              </div>
-            </div>
-          </Card>
-        </div>
-
-        <div className="w-full sm:w-1/2 lg:w-1/4">
-          <Card>
-            <div className="p-4">
-              <div className="flex items-center">
-                <FaMoneyBillWave className="text-4xl mr-4" />
-                <div>
-                  <h3 className="text-xl font-bold">Total Payments</h3>
-                  <p className="text-lg">
-                    {dashboardData?.data?.totalPayments[0].totalAmount}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </Card>
-        </div>
-
-        <div className="w-full sm:w-1/2 lg:w-1/4">
-          <Card>
-            <div className="p-4">
-              <div className="flex items-center">
-                <FaChartLine className="text-4xl mr-4" />
-                <div>
-                  <h3 className="text-xl font-bold">Monthly Activity</h3>
-                  <p className="text-lg">
-                    {dashboardData?.data?.monthlyActivity}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </Card>
-        </div>
+        ))}
       </div>
 
       <div className="mt-8">
         <h2 className="text-2xl font-bold mb-4">Payment Overview</h2>
-        {chartData.datasets.length && <Line data={chartData} />}
+        {chartData.datasets.length ? (
+          <Line
+            data={chartData}
+            options={{
+              responsive: true,
+              plugins: {
+                legend: { display: true, position: "top" },
+              },
+              scales: {
+                x: { grid: { display: false } },
+                y: { grid: { color: "#e5e5e5" } },
+              },
+            }}
+          />
+        ) : (
+          <p>Loading chart data...</p>
+        )}
       </div>
     </div>
   );

@@ -6,6 +6,7 @@ import type { TableColumnsType, TableProps } from "antd";
 import React from "react";
 import { Table } from "antd";
 import { Button } from "@nextui-org/button";
+import toast, { Toaster } from "react-hot-toast";
 
 interface DataType {
   key: React.Key;
@@ -25,6 +26,12 @@ const ContentTable = ({ posts }: { posts: any }) => {
       premium: post?.premium ? "Premium" : "Free",
     };
   });
+
+  const handleDelete = () => {
+    setTimeout(() => {
+      toast.success("Post deleted successfully");
+    }, 2000);
+  };
 
   const columns: TableColumnsType<DataType> = [
     {
@@ -59,7 +66,9 @@ const ContentTable = ({ posts }: { posts: any }) => {
       render: (item) => {
         return (
           <div>
-            <Button color="danger">Delete</Button>
+            <Button onClick={handleDelete} color="danger">
+              Delete
+            </Button>
           </div>
         );
       },
@@ -85,6 +94,7 @@ const ContentTable = ({ posts }: { posts: any }) => {
         showSorterTooltip={{ target: "sorter-icon" }}
         onChange={onChange}
       />
+      <Toaster></Toaster>
     </div>
   );
 };

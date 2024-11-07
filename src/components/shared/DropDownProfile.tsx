@@ -37,7 +37,7 @@ const DropDownProfile = ({
               isBordered: true,
               src: user?.data?.img,
             }}
-            className="transition-transform"
+            className="transition-transform text-xl font-semibold"
             name={user?.data?.name}
           />
         </DropdownTrigger>
@@ -59,7 +59,7 @@ const DropDownProfile = ({
           {user?.data?.password && user?.data?.password ? (
             <DropdownItem
               key="changePassword"
-              onClick={(e) => e.stopPropagation()}
+              // onClick={(e) => e.stopPropagation()}
             >
               <ChangePassword user={user} />
             </DropdownItem>

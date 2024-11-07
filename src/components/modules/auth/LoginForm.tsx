@@ -27,6 +27,25 @@ const LoginForm = () => {
     }
   }, [state, ref]);
 
+  // Demo credentials
+  const demoUserCredentials = {
+    email: "sabbir@gmail.com",
+    password: "default-pass",
+  };
+
+  const demoAdminCredentials = {
+    email: "web@programming-hero.com",
+    password: "default-pass",
+  };
+
+  // Function to set demo credentials
+  const fillCredentials = (credentials: any) => {
+    if (ref.current) {
+      ref.current.email.value = credentials.email;
+      ref.current.password.value = credentials.password;
+    }
+  };
+
   return (
     <form ref={ref} action={formAction}>
       <h1 className="text-3xl font-bold">Sign In</h1>
@@ -34,6 +53,23 @@ const LoginForm = () => {
         <SocialLogin />
       </div>
       <span>or use your email password</span>
+      {/* Demo User and Admin Buttons */}
+      <div className="flex gap-4 my-2">
+        <button
+          type="button"
+          onClick={() => fillCredentials(demoUserCredentials)}
+          className="bg-blue-500 text-white px-3 py-1 rounded"
+        >
+          Demo User
+        </button>
+        <button
+          type="button"
+          onClick={() => fillCredentials(demoAdminCredentials)}
+          className="bg-green-500 text-white px-3 py-1 rounded"
+        >
+          Demo Admin
+        </button>
+      </div>
       <input name="email" placeholder="Email" required={true} type="email" />
       <input
         name="password"

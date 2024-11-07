@@ -62,3 +62,12 @@ export const updateUserRole = async (id: string) => {
     console.log("error =>", error);
   }
 };
+
+export const suggestionUser = async (id: string) => {
+  try {
+    const result = await nexiosInstance.get(`/users/suggestion/${id}`);
+    return result?.data;
+  } catch (error) {
+    console.log("error =>", error);
+  }
+};

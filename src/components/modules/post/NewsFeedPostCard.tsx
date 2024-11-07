@@ -156,7 +156,12 @@ const NewsFeedPostCard = ({
               src={post?.author?.img} // Replace with actual profile image URL
             />
             <h3 className="text-lg font-bold text-gray-800 dark:text-white flex items-center gap-2">
-              {post?.author?.name}{" "}
+              <a
+                href={`/profile/${post?.author?.email}`}
+                className="hover:underline"
+              >
+                {post?.author?.name}
+              </a>
               {post?.author?.verified && (
                 <RiVerifiedBadgeLine className="text-blue-500" />
               )}

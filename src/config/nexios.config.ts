@@ -2,7 +2,8 @@ import { Nexios } from "nexios-http";
 import { cookies } from "next/headers";
 
 const nexiosInstance = new Nexios({
-  baseURL: "https://assignment-06-server-phi.vercel.app/api/v1",
+  // https://assignment-06-server-phi.vercel.app/api/v1
+  baseURL: "http://localhost:5000/api/v1",
   credentials: "include",
   timeout: 10000,
   headers: {

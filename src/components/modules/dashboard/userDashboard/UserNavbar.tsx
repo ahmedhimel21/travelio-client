@@ -3,12 +3,15 @@ import React from "react";
 import { ChevronLeft, Menu, SearchCheck } from "lucide-react";
 
 import { useSidebarContext } from "@/src/app/(dashboardLayout)/layout/layout-context";
+import { cookies } from "next/headers";
+import DropDownProfile from "@/src/components/shared/DropDownProfile";
 
 interface Props {
   children: React.ReactNode;
+  user: any;
 }
 
-export const NavbarWrapper = ({ children }: Props) => {
+export const NavbarWrapper = ({ children, user }: Props) => {
   const { collapsed, setCollapsed } = useSidebarContext();
 
   return (
@@ -28,16 +31,7 @@ export const NavbarWrapper = ({ children }: Props) => {
           )}
         </NavbarContent>
         <NavbarContent className="w-full max-md:hidden">
-          <Input
-            isClearable
-            className="w-full"
-            classNames={{
-              input: "w-full",
-              mainWrapper: "w-full",
-            }}
-            placeholder="Search..."
-            startContent={<SearchCheck />}
-          />
+          <DropDownProfile user={user}></DropDownProfile>
         </NavbarContent>
         <NavbarContent
           className="w-fit data-[justify=end]:flex-grow-0"
