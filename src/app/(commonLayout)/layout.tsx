@@ -13,14 +13,13 @@ const commonLayout = async ({ children }: { children: React.ReactNode }) => {
 
   const suggestion: any = await suggestionUser(user?.data?._id);
   return (
-    <>
+    <div>
       <div className="lg:hidden">
-        <Navbar />
+        <Navbar user={user} />
       </div>
       <div className="flex h-screen">
         {/* Left Sidebar */}
-        <LeftSidebar />
-
+        <LeftSidebar user={user} />
         {/* Main Content Feed */}
         <main className="flex-1 p-4 max-w-3xl mx-auto lg:ml-[20%] xl:ml-[25%] lg:mr-[25%]">
           <div>{children}</div>
@@ -29,7 +28,7 @@ const commonLayout = async ({ children }: { children: React.ReactNode }) => {
         {/* Right Sidebar */}
         <RightSidebar user={user} suggestion={suggestion} />
       </div>
-    </>
+    </div>
   );
 };
 

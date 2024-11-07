@@ -20,37 +20,8 @@ import DropDownProfile from "./DropDownProfile";
 
 import { siteConfig } from "@/src/config/site";
 import { ThemeSwitch } from "@/src/components/shared/theme-switch";
-import { SearchIcon } from "@/src/components/shared/icons";
-import { getUser } from "@/src/helpers/getUserInfo";
 
-export const Navbar = async () => {
-  // get access token from cookies
-  const accessToken: any = cookies().get("accessToken");
-  //get user
-  const user = await getUser(accessToken);
-
-  // search
-  const searchInput = (
-    <Input
-      aria-label="Search"
-      classNames={{
-        inputWrapper: "bg-default-100",
-        input: "text-sm",
-      }}
-      endContent={
-        <Kbd className="hidden lg:inline-block" keys={["command"]}>
-          K
-        </Kbd>
-      }
-      labelPlacement="outside"
-      placeholder="Search..."
-      startContent={
-        <SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />
-      }
-      type="search"
-    />
-  );
-
+export const Navbar = ({ user }: { user: any }) => {
   return (
     <div>
       <NextUINavbar maxWidth="xl" position="sticky">

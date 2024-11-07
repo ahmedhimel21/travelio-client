@@ -1,7 +1,5 @@
 "use client";
-
 import { useEffect } from "react";
-
 import "../../../styles/auth.style.css";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";

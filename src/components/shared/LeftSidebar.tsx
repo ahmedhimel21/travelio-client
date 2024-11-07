@@ -8,11 +8,7 @@ import { FaPaperPlane, FaPeopleGroup } from "react-icons/fa6";
 import { ImProfile } from "react-icons/im";
 import { MdDashboardCustomize, MdOutlineContactPhone } from "react-icons/md";
 
-const LeftSidebar = async () => {
-  // get access token from cookies
-  const accessToken: any = cookies().get("accessToken");
-  //get user
-  const user = await getUser(accessToken);
+const LeftSidebar = ({ user }: { user: any }) => {
   return (
     <aside className="hidden lg:flex lg:flex-col lg:w-1/5 xl:w-1/4 p-4 space-y-6 border-r border-gray-200 fixed h-full top-0 left-0">
       <div className="space-y-8 flex flex-col justify-center items-start mx-auto mt-6">
